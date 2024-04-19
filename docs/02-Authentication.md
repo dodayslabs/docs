@@ -34,6 +34,7 @@ In order to verify the user is still authenticated and the token hasn't expired,
 
 ```curl
 $ curl https://api.dodays.co.uk/v1/whoami \
+    -H "Accept: application/json" \
     -H "Authorization: Bearer API_TOKEN"
 ```
 
