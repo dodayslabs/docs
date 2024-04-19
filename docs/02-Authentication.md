@@ -20,7 +20,7 @@ If your request succeeds, a new token will be returned for you to access the use
 
 ```json
 {
-    "token": "API_TOKEN"
+  "token": "API_TOKEN"
 }
 ```
 
@@ -41,19 +41,19 @@ If your request succeeds, the `User` object will be returned.
 
 ```json
 {
-    "data": {
-        "id": 1,
-        "first_name": "Demo",
-        "last_name": "Customer",
-        "email": "demo@dodays.co.uk",
-        "telephone": "01913334444",
-        "street": null,
-        "town": null,
-        "postcode": null,
-        "emergency_name": null,
-        "emergency_telephone": null,
-        "emergency_relationship": null,
-        "activated_at": "2020-01-01T12:00:00.000000Z"
-    }
+  "data": {
+    "id": 1,
+    "first_name": "Demo",
+    "last_name": "Customer",
+    "email": "demo@dodays.co.uk",
+    "telephone": "01913334444",
+    "street": null,
+    "town": null,
+    "postcode": null,
+    "emergency_name": null,
+    "emergency_telephone": null,
+    "emergency_relationship": null,
+    "activated_at": "2020-01-01T12:00:00.000000Z"
+  }
 }
 ```

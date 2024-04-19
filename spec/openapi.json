@@ -428,7 +428,11 @@
                     "type": "string"
                   }
                 },
-                "required": ["current_password", "new_password", "new_password_confirmation"]
+                "required": [
+                  "current_password",
+                  "new_password",
+                  "new_password_confirmation"
+                ]
               },
               "examples": {
                 "Example 1": {
@@ -3611,7 +3615,12 @@
                   "type": "string"
                 }
               },
-              "required": ["token", "email", "password", "password_confirmation"]
+              "required": [
+                "token",
+                "email",
+                "password",
+                "password_confirmation"
+              ]
             },
             "examples": {
               "Example 1": {

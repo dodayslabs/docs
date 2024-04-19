@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Reference
-  version: '1.0'
+  version: "1.0"
   summary: API Reference
   description: The DoDays API reference.
   contact:
@@ -21,7 +21,7 @@ paths:
       summary: Ping
       operationId: get-ping
       responses:
-        '200':
+        "200":
           description: Pong.
           content:
             application/json:
@@ -41,8 +41,8 @@ paths:
       summary: Whoami
       operationId: get-whoami
       responses:
-        '200':
-          $ref: '#/components/responses/User'
+        "200":
+          $ref: "#/components/responses/User"
       description: Retrieve the authenticated user.
       tags:
         - Auth
@@ -52,63 +52,63 @@ paths:
       summary: Register a user
       operationId: post-register
       responses:
-        '201':
-          $ref: '#/components/responses/Token'
+        "201":
+          $ref: "#/components/responses/Token"
       description: Register and retrieve a token.
       security: []
       tags:
         - Auth
       requestBody:
-        $ref: '#/components/requestBodies/Register'
+        $ref: "#/components/requestBodies/Register"
   /auth/token:
     parameters: []
     post:
       summary: Get a token
       operationId: post-token
       responses:
-        '200':
-          $ref: '#/components/responses/Token'
+        "200":
+          $ref: "#/components/responses/Token"
       description: Sign in and retrieve a token.
       security: []
       tags:
         - Auth
       requestBody:
-        $ref: '#/components/requestBodies/Token'
+        $ref: "#/components/requestBodies/Token"
   /auth/forgot-password:
     parameters: []
     post:
       summary: Password reset link
       operationId: post-forgot-password
       responses:
-        '200':
-          $ref: '#/components/responses/Status'
+        "200":
+          $ref: "#/components/responses/Status"
       description: Request a password reset link.
       security: []
       tags:
         - Auth
       requestBody:
-        $ref: '#/components/requestBodies/ForgotPassword'
+        $ref: "#/components/requestBodies/ForgotPassword"
   /auth/reset-password:
     parameters: []
     post:
       summary: Reset password
       operationId: post-reset-password
       responses:
-        '200':
-          $ref: '#/components/responses/Status'
+        "200":
+          $ref: "#/components/responses/Status"
       description: Reset the users password.
       security: []
       tags:
         - Auth
       requestBody:
-        $ref: '#/components/requestBodies/ResetPassword'
+        $ref: "#/components/requestBodies/ResetPassword"
   /activate:
     parameters: []
     post:
       summary: Activate a user
       operationId: post-activate
       responses:
-        '204':
+        "204":
           description: No content.
       description: Activate a user account.
       security: []
@@ -140,7 +140,7 @@ paths:
       summary: Connect accept
       operationId: post-connect-accept
       responses:
-        '204':
+        "204":
           description: No content.
       description: Acccept a connect request.
       security: []
@@ -168,7 +168,7 @@ paths:
       summary: Connect reject
       operationId: post-connect-reject
       responses:
-        '204':
+        "204":
           description: No content.
       description: Reject a connect request.
       security: []
@@ -183,7 +183,7 @@ paths:
       summary: Get a link
       operationId: get-link
       responses:
-        '200':
+        "200":
           description: Returns the users link for the given organiser.
           content:
             application/json:
@@ -193,7 +193,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Link'
+                      $ref: "#/components/schemas/Link"
       description: Retrieve a organiser link.
       x-internal: false
       parameters:
@@ -211,8 +211,8 @@ paths:
       summary: Update details
       operationId: patch-details
       responses:
-        '200':
-          $ref: '#/components/responses/User'
+        "200":
+          $ref: "#/components/responses/User"
       description: Update the account holders details.
       requestBody:
         content:
@@ -249,7 +249,7 @@ paths:
                   first_name: Jim
                   last_name: Brown
                   email: jim@thebrowns.com
-                  telephone: '01913334444'
+                  telephone: "01913334444"
                   street: 1 Brown Street
                   town: Brown Town
                   region: Brown
@@ -264,8 +264,8 @@ paths:
       summary: Update emergency contact
       operationId: patch-emergency-contact
       responses:
-        '200':
-          $ref: '#/components/responses/User'
+        "200":
+          $ref: "#/components/responses/User"
       description: Update the account holders emergency contact.
       requestBody:
         content:
@@ -283,7 +283,7 @@ paths:
               Example 1:
                 value:
                   name: Sue Brown
-                  telephone: '01913334445'
+                  telephone: "01913334445"
                   relationship: sue@thebrowns.com
         description: Updates the users emergency contact.
       tags:
@@ -294,8 +294,8 @@ paths:
       summary: Update password
       operationId: patch-password
       responses:
-        '200':
-          $ref: '#/components/responses/User'
+        "200":
+          $ref: "#/components/responses/User"
       description: Update the account password.
       requestBody:
         content:
@@ -329,7 +329,7 @@ paths:
       summary: Attach Payment Method
       operationId: post-attach-payment-method
       responses:
-        '204':
+        "204":
           description: No content.
       tags:
         - Account
@@ -361,7 +361,7 @@ paths:
       summary: Update marketing consent
       operationId: patch-marketing-consent
       responses:
-        '204':
+        "204":
           description: No content.
       description: Update the account holders marketing consent.
       requestBody:
@@ -388,7 +388,7 @@ paths:
       summary: Update photo consent
       operationId: patch-photo-consent
       responses:
-        '204':
+        "204":
           description: No content.
       description: Update the account holders photo consent.
       requestBody:
@@ -415,7 +415,7 @@ paths:
       summary: Update session reminders
       operationId: patch-session-reminders
       responses:
-        '204':
+        "204":
           description: No content.
       description: Update the account holders session reminders.
       requestBody:
@@ -442,7 +442,7 @@ paths:
       summary: List organisers
       operationId: get-organisers
       responses:
-        '200':
+        "200":
           description: >-
             Returns a list of Organiser objects.
 
@@ -457,7 +457,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Organiser'
+                      $ref: "#/components/schemas/Organiser"
       description: Retrieve a list of organisers.
       x-internal: false
       parameters:
@@ -479,7 +479,7 @@ paths:
     get:
       summary: Get an organiser
       responses:
-        '200':
+        "200":
           description: Returns an Organiser object.
           content:
             application/json:
@@ -487,8 +487,8 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/Organiser'
-        '404':
+                    $ref: "#/components/schemas/Organiser"
+        "404":
           description: Organiser not found.
       operationId: get-organiser
       description: Retrieve the organiser.
@@ -502,7 +502,7 @@ paths:
       summary: List venues
       operationId: get-venues
       responses:
-        '200':
+        "200":
           description: Returns a list of Venue objects.
           content:
             application/json:
@@ -512,7 +512,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Venue'
+                      $ref: "#/components/schemas/Venue"
       description: Retrieve a list of venues.
       x-internal: false
       security: []
@@ -528,7 +528,7 @@ paths:
     get:
       summary: Get a venue
       responses:
-        '200':
+        "200":
           description: Returns a Venue object.
           content:
             application/json:
@@ -536,8 +536,8 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/Venue'
-        '404':
+                    $ref: "#/components/schemas/Venue"
+        "404":
           description: Venue not found.
       operationId: get-venue
       description: Retrieve the venue.
@@ -551,7 +551,7 @@ paths:
       summary: List terms
       operationId: get-terms
       responses:
-        '200':
+        "200":
           description: Returns a list of Term objects.
           content:
             application/json:
@@ -561,7 +561,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Term'
+                      $ref: "#/components/schemas/Term"
       description: Retrieve a list of terms.
       x-internal: false
       security: []
@@ -573,7 +573,7 @@ paths:
       summary: List classes
       operationId: get-classes
       responses:
-        '200':
+        "200":
           description: Returns a list of Class objects.
           content:
             application/json:
@@ -583,7 +583,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Class'
+                      $ref: "#/components/schemas/Class"
       description: Retrieve a list of classes.
       parameters:
         - schema:
@@ -665,7 +665,7 @@ paths:
     get:
       summary: Get a class
       responses:
-        '200':
+        "200":
           description: Returns a Class object.
           content:
             application/json:
@@ -673,8 +673,8 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/Class'
-        '404':
+                    $ref: "#/components/schemas/Class"
+        "404":
           description: Class not found.
       operationId: get-class
       description: Retrieve the class.
@@ -688,7 +688,7 @@ paths:
       summary: List class costs
       operationId: get-class-costs
       responses:
-        '200':
+        "200":
           description: >-
             Returns a list of lesson costs, in pence format, associated to the
             classes in the given term.
@@ -715,7 +715,7 @@ paths:
       summary: List stages
       operationId: get-stages
       responses:
-        '200':
+        "200":
           description: Returns a list of Stage objects.
           content:
             application/json:
@@ -725,7 +725,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Stage'
+                      $ref: "#/components/schemas/Stage"
       description: Retrieve a list of stages.
       x-internal: false
       security: []
@@ -737,21 +737,21 @@ paths:
       summary: List activities
       operationId: get-activities
       responses:
-        '200':
+        "200":
           description: Returns a list of activities.
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  '1':
+                  "1":
                     type: string
               examples:
                 Example 1:
                   value:
-                    '1': Swimming
-                    '2': Yoga
-                    '3': Cookery
+                    "1": Swimming
+                    "2": Yoga
+                    "3": Cookery
       description: Retrieve a list of activities.
       x-internal: false
       security: []
@@ -763,21 +763,21 @@ paths:
       summary: List abilities
       operationId: get-abilities
       responses:
-        '200':
+        "200":
           description: Returns a list of abilities.
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  '1':
+                  "1":
                     type: string
               examples:
                 Example 1:
                   value:
-                    '1': Beginner
-                    '2': Intermediate
-                    '3': Advanced
+                    "1": Beginner
+                    "2": Intermediate
+                    "3": Advanced
       description: Retrieve a list of abilities.
       x-internal: false
       security: []
@@ -789,14 +789,14 @@ paths:
       summary: List referrals
       operationId: get-referrals
       responses:
-        '200':
+        "200":
           description: Returns a list of referrals.
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  '1':
+                  "1":
                     type: string
               examples:
                 Example 1:
@@ -815,7 +815,7 @@ paths:
       summary: List days
       operationId: get-days
       responses:
-        '200':
+        "200":
           description: Returns a list of days the organiser delivers classes.
           content:
             application/json:
@@ -845,7 +845,7 @@ paths:
       summary: Create a waitee
       operationId: post-waitee
       responses:
-        '200':
+        "200":
           description: Waitee created.
           content:
             application/json:
@@ -855,7 +855,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Waitee'
+                      $ref: "#/components/schemas/Waitee"
       tags:
         - Waitees
       description: Create a new waitee.
@@ -930,7 +930,7 @@ paths:
       summary: Delete a waitee
       operationId: delete-waitee
       responses:
-        '204':
+        "204":
           description: Waitee deleted.
       description: Delete a waitee.
       tags:
@@ -956,7 +956,7 @@ paths:
     get:
       summary: Get a waitee
       responses:
-        '200':
+        "200":
           description: Returns a Waitee object.
           content:
             application/json:
@@ -964,8 +964,8 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/Waitee'
-        '404':
+                    $ref: "#/components/schemas/Waitee"
+        "404":
           description: Waitee not found.
       operationId: get-waitee
       description: Retrieve the waitee.
@@ -979,7 +979,7 @@ paths:
       summary: Create a voucher
       operationId: post-voucher
       responses:
-        '200':
+        "200":
           description: Voucher created.
           content:
             application/json:
@@ -989,7 +989,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Voucher'
+                      $ref: "#/components/schemas/Voucher"
       description: Create a new voucher.
       requestBody:
         content:
@@ -1021,7 +1021,7 @@ paths:
       summary: Check a voucher
       operationId: post-voucher-check
       responses:
-        '200':
+        "200":
           description: Returns a message relating to the status of the voucher.
           content:
             application/json:
@@ -1047,7 +1047,7 @@ paths:
       summary: Create a payment intent
       operationId: post-payment-intent
       responses:
-        '200':
+        "200":
           description: Payment intent created.
           content:
             application/json:
@@ -1105,7 +1105,7 @@ paths:
       summary: Update a payment intent
       operationId: patch-payment-intent
       responses:
-        '200':
+        "200":
           description: Payment intent updated.
           content:
             application/json:
@@ -1147,7 +1147,7 @@ paths:
       summary: Create a student
       operationId: post-student
       responses:
-        '201':
+        "201":
           description: Student created.
           content:
             application/json:
@@ -1155,7 +1155,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/Student'
+                    $ref: "#/components/schemas/Student"
       requestBody:
         content:
           application/json:
@@ -1196,7 +1196,7 @@ paths:
       summary: List students
       operationId: get-students
       responses:
-        '200':
+        "200":
           description: >-
             Returns a list of Student objects.
 
@@ -1211,7 +1211,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Student'
+                      $ref: "#/components/schemas/Student"
       description: Retrieve a list of family members.
       x-internal: false
       tags:
@@ -1234,7 +1234,7 @@ paths:
       tags:
         - Students
       responses:
-        '200':
+        "200":
           description: Returns a Student object.
           content:
             application/json:
@@ -1242,10 +1242,10 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/Student'
-        '403':
+                    $ref: "#/components/schemas/Student"
+        "403":
           description: Forbidden.
-        '404':
+        "404":
           description: Student not found.
       operationId: get-student
       description: Retrieve the family member.
@@ -1254,7 +1254,7 @@ paths:
       summary: Update a student
       operationId: patch-student
       responses:
-        '200':
+        "200":
           description: Returns a Student object.
           content:
             application/json:
@@ -1262,10 +1262,10 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/Student'
-        '403':
+                    $ref: "#/components/schemas/Student"
+        "403":
           description: Forbidden.
-        '404':
+        "404":
           description: Student not found.
       description: Update the family member.
       requestBody:
@@ -1303,7 +1303,7 @@ paths:
       tags:
         - Students
       responses:
-        '200':
+        "200":
           description: Return a list of StudentStage objects.
           content:
             application/json:
@@ -1313,10 +1313,10 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/StudentStage'
-        '403':
+                      $ref: "#/components/schemas/StudentStage"
+        "403":
           description: Forbidden.
-        '404':
+        "404":
           description: Student not found.
       operationId: get-student-stages
       description: Retrieve a list of the family members stages.
@@ -1327,7 +1327,7 @@ paths:
       summary: List prices
       operationId: get-prices
       responses:
-        '200':
+        "200":
           description: >-
             Returns a list of Price objects.
 
@@ -1346,7 +1346,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Price'
+                      $ref: "#/components/schemas/Price"
       description: Retrieve a list of prices.
       parameters:
         - schema:
@@ -1369,7 +1369,7 @@ paths:
       summary: Apply coupon
       operationId: get-apply-coupon
       responses:
-        '200':
+        "200":
           description: Returns a Discount or Voucher object.
           content:
             application/json:
@@ -1378,8 +1378,8 @@ paths:
                 properties:
                   data:
                     oneOf:
-                      - $ref: '#/components/schemas/Discount'
-                      - $ref: '#/components/schemas/Voucher'
+                      - $ref: "#/components/schemas/Discount"
+                      - $ref: "#/components/schemas/Voucher"
                   meta:
                     type: object
                     properties:
@@ -1410,7 +1410,7 @@ paths:
       summary: Create a booking
       operationId: post-booking
       responses:
-        '201':
+        "201":
           description: Booking created.
           content:
             application/json:
@@ -1418,7 +1418,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/Booking'
+                    $ref: "#/components/schemas/Booking"
       requestBody:
         content:
           application/json:
@@ -1517,7 +1517,7 @@ paths:
       summary: List bookings
       operationId: get-bookings
       responses:
-        '200':
+        "200":
           description: Booking created.
           content:
             application/json:
@@ -1527,7 +1527,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Booking'
+                      $ref: "#/components/schemas/Booking"
       description: Retrieve a list of bookings.
       parameters:
         - schema:
@@ -1558,7 +1558,7 @@ paths:
       summary: Calculate booking costs
       operationId: get-booking-calculation
       responses:
-        '200':
+        "200":
           description: Returns the calculated booking costs.
           content:
             application/json:
@@ -1652,7 +1652,7 @@ paths:
     get:
       summary: Get a booking
       responses:
-        '200':
+        "200":
           description: Returns the Booking object.
           content:
             application/json:
@@ -1660,8 +1660,8 @@ paths:
                 type: object
                 properties:
                   data:
-                    $ref: '#/components/schemas/Booking'
-        '404':
+                    $ref: "#/components/schemas/Booking"
+        "404":
           description: Booking not found.
       operationId: get-booking
       description: Retrieve the booking.
@@ -1678,7 +1678,7 @@ paths:
       summary: Pay booking
       operationId: post-pay-booking
       responses:
-        '204':
+        "204":
           description: No content.
       description: Pay a booking.
       tags:
@@ -1698,7 +1698,7 @@ paths:
       summary: List payments
       operationId: get-payments
       responses:
-        '200':
+        "200":
           description: Returns a list of Payment objects.
           content:
             application/json:
@@ -1708,7 +1708,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Payment'
+                      $ref: "#/components/schemas/Payment"
       description: Retrieve a list of payments.
       parameters:
         - schema:
@@ -1724,7 +1724,7 @@ paths:
       summary: List subscriptions
       operationId: get-subscriptions
       responses:
-        '200':
+        "200":
           description: Returns a list of Subscription objects.
           content:
             application/json:
@@ -1734,7 +1734,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Subscription'
+                      $ref: "#/components/schemas/Subscription"
       description: Retrieve a list of subscriptions.
       parameters:
         - schema:
@@ -1760,7 +1760,7 @@ paths:
       summary: Activate subscription
       operationId: post-activate-subscription
       responses:
-        '204':
+        "204":
           description: No content.
       description: Activate a subscription.
       requestBody:
@@ -1779,7 +1779,7 @@ paths:
       summary: Pay subscription
       operationId: post-pay-subscription
       responses:
-        '204':
+        "204":
           description: No content.
       description: Pay a subscription.
       requestBody:
@@ -1798,7 +1798,7 @@ paths:
       summary: Create a setup intent
       operationId: post-setup-intent
       responses:
-        '200':
+        "200":
           description: Setup intent created.
           content:
             application/json:
@@ -1848,7 +1848,7 @@ paths:
     get:
       summary: Get a metric
       responses:
-        '200':
+        "200":
           description: Returns the trend or value metric.
           content:
             application/json:
@@ -1870,7 +1870,7 @@ paths:
                       previous:
                         type: integer
                 type: object
-        '404':
+        "404":
           description: Booking not found.
       operationId: get-metric
       description: Retrieve the metric.
@@ -1950,9 +1950,9 @@ components:
         sessions:
           type: array
           items:
-            $ref: '#/components/schemas/BookingSession'
+            $ref: "#/components/schemas/BookingSession"
         class:
-          $ref: '#/components/schemas/Class'
+          $ref: "#/components/schemas/Class"
     BookingSession:
       title: BookingSession
       type: object
@@ -1969,7 +1969,7 @@ components:
         cancelled:
           type: boolean
         session:
-          $ref: '#/components/schemas/Session'
+          $ref: "#/components/schemas/Session"
     Class:
       title: Class
       type: object
@@ -2031,7 +2031,7 @@ components:
         sessions:
           type: array
           items:
-            $ref: '#/components/schemas/Session'
+            $ref: "#/components/schemas/Session"
     Discount:
       title: Discount
       type: object
@@ -2151,19 +2151,19 @@ components:
         terms:
           type: array
           items:
-            $ref: '#/components/schemas/Term'
+            $ref: "#/components/schemas/Term"
         venues:
           type: array
           items:
-            $ref: '#/components/schemas/Venue'
+            $ref: "#/components/schemas/Venue"
         stages:
           type: array
           items:
-            $ref: '#/components/schemas/Stage'
+            $ref: "#/components/schemas/Stage"
         vouchers:
           type: array
           items:
-            $ref: '#/components/schemas/Product'
+            $ref: "#/components/schemas/Product"
     Payment:
       title: Payment
       type: object
@@ -2184,13 +2184,13 @@ components:
         organiser_name:
           type: string
         booking:
-          $ref: '#/components/schemas/Booking'
+          $ref: "#/components/schemas/Booking"
         order:
-          $ref: '#/components/schemas/Order'
+          $ref: "#/components/schemas/Order"
         student:
-          $ref: '#/components/schemas/Student'
+          $ref: "#/components/schemas/Student"
         subscription:
-          $ref: '#/components/schemas/Subscription'
+          $ref: "#/components/schemas/Subscription"
     Plan:
       title: Plan
       type: object
@@ -2229,7 +2229,7 @@ components:
             - flexiStart
             - cherryPick
         plan:
-          $ref: '#/components/schemas/Plan'
+          $ref: "#/components/schemas/Plan"
     Product:
       title: Product
       type: object
@@ -2320,7 +2320,7 @@ components:
         goals:
           type: array
           items:
-            $ref: '#/components/schemas/StudentGoal'
+            $ref: "#/components/schemas/StudentGoal"
     Subscription:
       title: Subscription
       type: object
@@ -2437,9 +2437,9 @@ components:
         expired:
           type: boolean
         organiser:
-          $ref: '#/components/schemas/Organiser'
+          $ref: "#/components/schemas/Organiser"
         class:
-          $ref: '#/components/schemas/Class'
+          $ref: "#/components/schemas/Class"
   securitySchemes:
     Authorization:
       type: http
@@ -2485,7 +2485,7 @@ components:
                 email: jim@thebrowns.com
                 password: password
                 password_confirmation: password
-                telephone: '01913334444'
+                telephone: "01913334444"
                 terms: true
                 device_name: Device
       description: Creates and authenticates a new User and generates a new Token.
@@ -2576,7 +2576,7 @@ components:
             type: object
             properties:
               data:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
     Status:
       description: Returns a status string.
       content:
