@@ -918,39 +918,17 @@ paths:
         description: >-
           Creates a new waitee.
 
-
           If a user is signed in, `students.id` is required and the waitee will
           be associated to the authenticated user.
-
 
           If no user is signed in, `first_name`, `last_name`, `email`,
           `telephone`, `students.first_name` and `students.last_name` are
           required.
-    delete:
-      summary: Delete a waitee
-      operationId: delete-waitee
-      responses:
-        "204":
-          description: Waitee deleted.
-      description: Delete a waitee.
-      tags:
-        - Waitees
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                invite_code:
-                  type: string
-              required:
-                - invite_code
-        description: Deletes a waitee with the given invite code.
-  /waitees/{waiteeId}:
+  /waitees/{inviteCode}:
     parameters:
       - schema:
           type: string
-        name: waiteeId
+        name: inviteCode
         in: path
         required: true
     get:
@@ -971,6 +949,15 @@ paths:
       description: Retrieve the waitee.
       x-internal: false
       security: []
+      tags:
+        - Waitees
+    delete:
+      summary: Delete a waitee
+      operationId: delete-waitee
+      responses:
+        "204":
+          description: Waitee deleted.
+      description: Delete a waitee.
       tags:
         - Waitees
   /vouchers:
