@@ -9,11 +9,11 @@ info:
     email: engineering@dodays.co.uk
 servers:
   - description: Local
-    url: http://api.dodays.test/v1
-  - url: https://api.dodays-staging.co.uk/v1
+    url: "http://api.dodays.test/v1"
+  - url: "https://api.dodays-staging.co.uk/v1"
     description: Staging
   - description: Production
-    url: https://api.dodays.co.uk/v1
+    url: "https://api.dodays.co.uk/v1"
 paths:
   /ping:
     parameters: []
@@ -129,7 +129,7 @@ paths:
                   items:
                     type: boolean
         description: Activates the users account.
-  /organisers/{organiserId}/accept:
+  "/organisers/{organiserId}/accept":
     parameters:
       - schema:
           type: string
@@ -157,7 +157,7 @@ paths:
         description: Accepts the organisers connect request.
       tags:
         - Users
-  /organisers/{organiserId}/reject:
+  "/organisers/{organiserId}/reject":
     parameters:
       - schema:
           type: string
@@ -200,7 +200,7 @@ paths:
         - schema:
             type: integer
           in: query
-          name: filter[organiser]
+          name: "filter[organiser]"
           description: ID of the organiser
       security: []
       tags:
@@ -352,9 +352,7 @@ paths:
                 value:
                   organiser_id: 1
                   payment_method: card
-        description: >-
-          Attaches a new payment method to the authenticated user for a given
-          organiser.
+        description: Attaches a new payment method to the authenticated user for a given organiser.
   /account/marketing-consent:
     parameters: []
     patch:
@@ -443,12 +441,10 @@ paths:
       operationId: get-organisers
       responses:
         "200":
-          description: >-
+          description: |-
             Returns a list of Organiser objects.
 
-
-            When the user filter is provided, the list contains only organisers
-            the user is linked too.
+            When the user filter is provided, the list contains only organisers the user is linked too.
           content:
             application/json:
               schema:
@@ -464,12 +460,12 @@ paths:
         - schema:
             type: integer
           in: query
-          name: filter[user]
+          name: "filter[user]"
           description: ID of the user
       tags:
         - Organisers
       security: []
-  /organisers/{organiserId}:
+  "/organisers/{organiserId}":
     parameters:
       - schema:
           type: string
@@ -518,7 +514,7 @@ paths:
       security: []
       tags:
         - Venues
-  /venues/{venueId}:
+  "/venues/{venueId}":
     parameters:
       - schema:
           type: string
@@ -589,59 +585,59 @@ paths:
         - schema:
             type: integer
           in: query
-          name: filter[organiser]
+          name: "filter[organiser]"
           description: ID of the organiser
         - schema:
             type: integer
             format: date
           in: query
-          name: filter[term]
+          name: "filter[term]"
           description: ID of the term
         - schema:
             type: integer
           in: query
-          name: filter[venue]
+          name: "filter[venue]"
           description: ID of the venue
         - schema:
             type: integer
           in: query
-          name: filter[stage]
+          name: "filter[stage]"
           description: ID of the stage
         - schema:
             type: string
           in: query
-          name: filter[age][interval]
-          description: Interval between the min and max age i.e. month, year
+          name: "filter[age][interval]"
+          description: "Interval between the min and max age i.e. month, year"
         - schema:
             type: integer
           in: query
-          name: filter[age][min]
+          name: "filter[age][min]"
           description: Minimum age threshold
         - schema:
             type: integer
           in: query
-          name: filter[age][max]
+          name: "filter[age][max]"
           description: Maximum age threshold
         - schema:
             type: integer
           in: query
-          name: filter[ability]
+          name: "filter[ability]"
           description: ID of the ability
         - schema:
             type: integer
           in: query
-          name: filter[activity]
+          name: "filter[activity]"
           description: ID of the activity
         - schema:
             type: string
           in: query
-          name: filter[day]
-          description: Numerical day of the week i.e. 1 = Sunday, 2 = Monday etc.
+          name: "filter[day]"
+          description: "Numerical day of the week i.e. 1 = Sunday, 2 = Monday etc."
         - schema:
             type: string
           in: query
-          name: filter[search]
-          description: Phrase to match the class name, venue name and organiser name
+          name: "filter[search]"
+          description: "Phrase to match the class name, venue name and organiser name"
         - schema:
             type: integer
           in: query
@@ -655,7 +651,7 @@ paths:
       security: []
       tags:
         - Classes
-  /classes/{classId}:
+  "/classes/{classId}":
     parameters:
       - schema:
           type: string
@@ -689,9 +685,7 @@ paths:
       operationId: get-class-costs
       responses:
         "200":
-          description: >-
-            Returns a list of lesson costs, in pence format, associated to the
-            classes in the given term.
+          description: "Returns a list of lesson costs, in pence format, associated to the classes in the given term."
           content:
             application/json:
               schema:
@@ -704,7 +698,7 @@ paths:
         - schema:
             type: integer
           in: query
-          name: filter[term]
+          name: "filter[term]"
           description: ID of the term
       security: []
       tags:
@@ -834,7 +828,7 @@ paths:
         - schema:
             type: integer
           in: query
-          name: filter[organiser]
+          name: "filter[organiser]"
           description: ID of the organiser
       security: []
       tags:
@@ -915,16 +909,11 @@ paths:
                 - students
                 - venues
                 - days
-        description: >-
+        description: |-
           Creates a new waitee.
-
-          If a user is signed in, `students.id` is required and the waitee will
-          be associated to the authenticated user.
-
-          If no user is signed in, `first_name`, `last_name`, `email`,
-          `telephone`, `students.first_name` and `students.last_name` are
-          required.
-  /waitees/{inviteCode}:
+          If a user is signed in, `students.id` is required and the waitee will be associated to the authenticated user.
+          If no user is signed in, `first_name`, `last_name`, `email`, `telephone`, `students.first_name` and `students.last_name` are required.
+  "/waitees/{inviteCode}":
     parameters:
       - schema:
           type: string
@@ -1184,12 +1173,10 @@ paths:
       operationId: get-students
       responses:
         "200":
-          description: >-
+          description: |-
             Returns a list of Student objects.
 
-
-            When the class filter is provided, the list contains only students
-            who qualify the class based on age.
+            When the class filter is provided, the list contains only students who qualify the class based on age.
           content:
             application/json:
               schema:
@@ -1207,9 +1194,9 @@ paths:
         - schema:
             type: integer
           in: query
-          name: filter[class]
+          name: "filter[class]"
           description: ID of the class
-  /students/{studentId}:
+  "/students/{studentId}":
     parameters:
       - schema:
           type: string
@@ -1278,7 +1265,7 @@ paths:
       x-internal: false
       tags:
         - Students
-  /students/{studentId}/stages:
+  "/students/{studentId}/stages":
     parameters:
       - schema:
           type: string
@@ -1315,16 +1302,12 @@ paths:
       operationId: get-prices
       responses:
         "200":
-          description: >-
+          description: |-
             Returns a list of Price objects.
 
+            When the class filter is provided, the list contains only prices that are available for this class.
 
-            When the class filter is provided, the list contains only prices
-            that are available for this class.
-
-
-            When the students filter is provided, the list contains only prices
-            that are available for all students.
+            When the students filter is provided, the list contains only prices that are available for all students.
           content:
             application/json:
               schema:
@@ -1339,22 +1322,22 @@ paths:
         - schema:
             type: integer
           in: query
-          name: filter[class]
+          name: "filter[class]"
           description: ID of the class
           required: true
         - schema:
             type: array
           in: query
-          name: filter[students][]
+          name: "filter[students][]"
           description: IDs of the students
           required: true
       tags:
         - Prices
   /coupons/apply:
     parameters: []
-    get:
+    post:
       summary: Apply coupon
-      operationId: get-apply-coupon
+      operationId: post-apply-coupon
       responses:
         "200":
           description: Returns a Discount or Voucher object.
@@ -1376,20 +1359,18 @@ paths:
                           - discount
                           - voucher
               examples: {}
-      description: Retrieve a Discount or Voucher.
-      parameters:
-        - schema:
-            type: string
-          in: query
-          name: filter[code]
-          description: Coupon code
-          required: true
-        - schema:
-            type: integer
-          in: query
-          name: filter[class]
-          required: true
-          description: ID of the class
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                class:
+                  type: integer
+                code:
+                  type: string
+        description: Applies a Discount or Voucher to the booking.
+      description: Apply a Discount or Voucher.
       tags:
         - Coupons
   /bookings:
@@ -1520,17 +1501,17 @@ paths:
         - schema:
             type: integer
           in: query
-          name: filter[organiser]
+          name: "filter[organiser]"
           description: ID of the organiser
         - schema:
             type: integer
           in: query
-          name: filter[student]
+          name: "filter[student]"
           description: ID of the student
         - schema:
             type: boolean
           in: query
-          name: filter[ended]
+          name: "filter[ended]"
           description: Whether the booking has ended
         - schema:
             type: string
@@ -1591,45 +1572,45 @@ paths:
         - schema:
             type: integer
           in: query
-          name: filter[class]
+          name: "filter[class]"
           description: ID of the class
           required: true
         - schema:
             type: array
           in: query
-          name: filter[sessions][]
+          name: "filter[sessions][]"
           description: IDs of the sessions
           required: true
         - schema:
             type: array
           in: query
-          name: filter[students][]
+          name: "filter[students][]"
           description: IDs of the students
           required: true
         - schema:
             type: integer
           in: query
-          name: filter[price]
+          name: "filter[price]"
           description: ID of the price
           required: true
         - schema:
             type: integer
           in: query
-          name: filter[plan]
+          name: "filter[plan]"
           description: ID of the plan
         - schema:
             type: integer
           in: query
-          name: filter[discount]
+          name: "filter[discount]"
           description: ID of the discount
         - schema:
             type: integer
           in: query
-          name: filter[voucher]
+          name: "filter[voucher]"
           description: ID of the voucher
       tags:
         - Bookings
-  /bookings/{bookingRef}:
+  "/bookings/{bookingRef}":
     parameters:
       - schema:
           type: string
@@ -1654,7 +1635,7 @@ paths:
       description: Retrieve the booking.
       tags:
         - Bookings
-  /bookings/{bookingRef}/pay:
+  "/bookings/{bookingRef}/pay":
     parameters:
       - schema:
           type: string
@@ -1701,7 +1682,7 @@ paths:
         - schema:
             type: integer
           in: query
-          name: filter[organiser]
+          name: "filter[organiser]"
           description: ID of the organiser
       tags:
         - Payments
@@ -1727,16 +1708,16 @@ paths:
         - schema:
             type: integer
           in: query
-          name: filter[organiser]
+          name: "filter[organiser]"
           description: ID of the organiser
         - schema:
             type: integer
           in: query
-          name: filter[student]
+          name: "filter[student]"
           description: ID of the student
       tags:
         - Subscriptions
-  /subscriptions/{subscriptionId}/activate:
+  "/subscriptions/{subscriptionId}/activate":
     parameters:
       - schema:
           type: string
@@ -1755,7 +1736,7 @@ paths:
         description: Activates a subscription.
       tags:
         - Subscriptions
-  /subscriptions/{subscriptionId}/pay:
+  "/subscriptions/{subscriptionId}/pay":
     parameters:
       - schema:
           type: string
@@ -1820,7 +1801,7 @@ paths:
       tags:
         - Setup Intents
     parameters: []
-  /metics/{domain}/{metric}:
+  "/metics/{domain}/{metric}":
     parameters:
       - schema:
           type: string
@@ -1870,7 +1851,7 @@ paths:
         - schema:
             type: string
           in: query
-          name: filter[date_range]
+          name: "filter[date_range]"
           description: Date range
       tags:
         - Metrics
