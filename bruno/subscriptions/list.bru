@@ -5,13 +5,13 @@ meta {
 }
 
 get {
-  url: {{protocol}}://{{host}}/{{version}}/subscriptions?filter[organiser]=1&filter[student]=2
+  url: {{protocol}}://{{host}}/{{version}}/subscriptions?filter[provider]=1&filter[student]=2
   body: none
   auth: bearer
 }
 
 query {
-  filter[organiser]: 1
+  filter[provider]: 1
   filter[student]: 2
 }
 

@@ -129,11 +129,11 @@ paths:
                   items:
                     type: boolean
         description: Activates the users account.
-  "/organisers/{organiserId}/accept":
+  "/providers/{providerId}/accept":
     parameters:
       - schema:
           type: string
-        name: organiserId
+        name: providerId
         in: path
         required: true
     post:
@@ -154,14 +154,14 @@ paths:
                   type: boolean
                 marketing:
                   type: boolean
-        description: Accepts the organisers connect request.
+        description: Accepts the providers connect request.
       tags:
         - Users
-  "/organisers/{organiserId}/reject":
+  "/providers/{providerId}/reject":
     parameters:
       - schema:
           type: string
-        name: organiserId
+        name: providerId
         in: path
         required: true
     post:
@@ -174,7 +174,7 @@ paths:
       security: []
       requestBody:
         content: {}
-        description: Rejects the organisers connect request.
+        description: Rejects the providers connect request.
       tags:
         - Users
   /links:
@@ -184,7 +184,7 @@ paths:
       operationId: get-link
       responses:
         "200":
-          description: Returns the users link for the given organiser.
+          description: Returns the users link for the given provider.
           content:
             application/json:
               schema:
@@ -194,14 +194,14 @@ paths:
                     type: array
                     items:
                       $ref: "#/components/schemas/Link"
-      description: Retrieve a organiser link.
+      description: Retrieve a provider link.
       x-internal: false
       parameters:
         - schema:
             type: integer
           in: query
-          name: "filter[organiser]"
-          description: ID of the organiser
+          name: "filter[provider]"
+          description: ID of the provider
       security: []
       tags:
         - Links
@@ -340,19 +340,19 @@ paths:
             schema:
               type: object
               properties:
-                organiser_id:
+                provider_id:
                   type: integer
                 payment_method:
                   type: string
               required:
-                - organiser_id
+                - provider_id
                 - payment_method
             examples:
               Example 1:
                 value:
-                  organiser_id: 1
+                  provider_id: 1
                   payment_method: card
-        description: Attaches a new payment method to the authenticated user for a given organiser.
+        description: Attaches a new payment method to the authenticated user for a given provider.
   /account/marketing-consent:
     parameters: []
     patch:
@@ -368,15 +368,15 @@ paths:
             schema:
               type: object
               properties:
-                organiser_id:
+                provider_id:
                   type: integer
               required:
-                - organiser_id
+                - provider_id
             examples:
               Example 1:
                 value:
-                  organiser_id: 1
-        description: Toggles the users marketing consent for a given organiser.
+                  provider_id: 1
+        description: Toggles the users marketing consent for a given provider.
       x-internal: false
       tags:
         - Account
@@ -395,15 +395,15 @@ paths:
             schema:
               type: object
               properties:
-                organiser_id:
+                provider_id:
                   type: integer
               required:
-                - organiser_id
+                - provider_id
             examples:
               Example 1:
                 value:
-                  organiser_id: 1
-        description: Toggles the users photo consent for a given organiser.
+                  provider_id: 1
+        description: Toggles the users photo consent for a given provider.
       x-internal: false
       tags:
         - Account
@@ -422,29 +422,29 @@ paths:
             schema:
               type: object
               properties:
-                organiser_id:
+                provider_id:
                   type: integer
               required:
-                - organiser_id
+                - provider_id
             examples:
               Example 1:
                 value:
-                  organiser_id: 1
-        description: Toggles the users session reminders setting for a given organiser.
+                  provider_id: 1
+        description: Toggles the users session reminders setting for a given provider.
       x-internal: false
       tags:
         - Account
-  /organisers:
+  /providers:
     parameters: []
     get:
-      summary: List organisers
-      operationId: get-organisers
+      summary: List providers
+      operationId: get-providers
       responses:
         "200":
           description: |-
-            Returns a list of Organiser objects.
+            Returns a list of Provider objects.
 
-            When the user filter is provided, the list contains only organisers the user is linked too.
+            When the user filter is provided, the list contains only providers the user is linked too.
           content:
             application/json:
               schema:
@@ -453,8 +453,8 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: "#/components/schemas/Organiser"
-      description: Retrieve a list of organisers.
+                      $ref: "#/components/schemas/Provider"
+      description: Retrieve a list of providers.
       x-internal: false
       parameters:
         - schema:
@@ -463,34 +463,34 @@ paths:
           name: "filter[user]"
           description: ID of the user
       tags:
-        - Organisers
+        - Providers
       security: []
-  "/organisers/{organiserId}":
+  "/providers/{providerId}":
     parameters:
       - schema:
           type: string
-        name: organiserId
+        name: providerId
         in: path
         required: true
     get:
-      summary: Get an organiser
+      summary: Get an provider
       responses:
         "200":
-          description: Returns an Organiser object.
+          description: Returns an Provider object.
           content:
             application/json:
               schema:
                 type: object
                 properties:
                   data:
-                    $ref: "#/components/schemas/Organiser"
+                    $ref: "#/components/schemas/Provider"
         "404":
-          description: Organiser not found.
-      operationId: get-organiser
-      description: Retrieve the organiser.
+          description: Provider not found.
+      operationId: get-provider
+      description: Retrieve the provider.
       x-internal: false
       tags:
-        - Organisers
+        - Providers
       security: []
   /venues:
     parameters: []
@@ -585,8 +585,8 @@ paths:
         - schema:
             type: integer
           in: query
-          name: "filter[organiser]"
-          description: ID of the organiser
+          name: "filter[provider]"
+          description: ID of the provider
         - schema:
             type: integer
             format: date
@@ -637,7 +637,7 @@ paths:
             type: string
           in: query
           name: "filter[search]"
-          description: "Phrase to match the class name, venue name and organiser name"
+          description: "Phrase to match the class name, venue name and provider name"
         - schema:
             type: integer
           in: query
@@ -810,7 +810,7 @@ paths:
       operationId: get-days
       responses:
         "200":
-          description: Returns a list of days the organiser delivers classes.
+          description: Returns a list of days the provider delivers classes.
           content:
             application/json:
               schema:
@@ -828,8 +828,8 @@ paths:
         - schema:
             type: integer
           in: query
-          name: "filter[organiser]"
-          description: ID of the organiser
+          name: "filter[provider]"
+          description: ID of the provider
       security: []
       tags:
         - Days
@@ -859,7 +859,7 @@ paths:
             schema:
               type: object
               properties:
-                organiser_id:
+                provider_id:
                   type: integer
                 first_name:
                   type: string
@@ -905,7 +905,7 @@ paths:
                 notes:
                   type: string
               required:
-                - organiser_id
+                - provider_id
                 - students
                 - venues
                 - days
@@ -1042,7 +1042,7 @@ paths:
             schema:
               type: object
               properties:
-                organiser_id:
+                provider_id:
                   type: integer
                 booking_id:
                   type: integer
@@ -1068,7 +1068,7 @@ paths:
                     capture_method:
                       type: string
               required:
-                - organiser_id
+                - provider_id
                 - payment_method
                 - amount
         description: Creates a new payment intent on Stripe.
@@ -1101,7 +1101,7 @@ paths:
             schema:
               type: object
               properties:
-                organiser_id:
+                provider_id:
                   type: integer
                 booking_id:
                   type: integer
@@ -1138,7 +1138,7 @@ paths:
             schema:
               type: object
               properties:
-                organiser_id:
+                provider_id:
                   type: integer
                 first_name:
                   type: string
@@ -1159,7 +1159,7 @@ paths:
                 notes:
                   type: string
               required:
-                - organiser_id
+                - provider_id
                 - first_name
                 - last_name
         description: Creates a new family member.
@@ -1501,8 +1501,8 @@ paths:
         - schema:
             type: integer
           in: query
-          name: "filter[organiser]"
-          description: ID of the organiser
+          name: "filter[provider]"
+          description: ID of the provider
         - schema:
             type: integer
           in: query
@@ -1682,8 +1682,8 @@ paths:
         - schema:
             type: integer
           in: query
-          name: "filter[organiser]"
-          description: ID of the organiser
+          name: "filter[provider]"
+          description: ID of the provider
       tags:
         - Payments
   /subscriptions:
@@ -1708,8 +1708,8 @@ paths:
         - schema:
             type: integer
           in: query
-          name: "filter[organiser]"
-          description: ID of the organiser
+          name: "filter[provider]"
+          description: ID of the provider
         - schema:
             type: integer
           in: query
@@ -1781,7 +1781,7 @@ paths:
             schema:
               type: object
               properties:
-                organiser_id:
+                provider_id:
                   type: integer
                 customer:
                   type: string
@@ -1793,7 +1793,7 @@ paths:
                       items:
                         type: string
               required:
-                - organiser_id
+                - provider_id
                 - customer
         description: Creates a new setup intent on Stripe.
       description: Create a new setup intent.
@@ -1847,7 +1847,7 @@ paths:
             type: integer
           in: query
           name: club_id
-          description: ID of the organiser
+          description: ID of the provider
         - schema:
             type: string
           in: query
@@ -1869,9 +1869,9 @@ components:
           type: integer
         student_name:
           type: string
-        organiser_id:
+        provider_id:
           type: integer
-        organiser_name:
+        provider_name:
           type: string
         class_id:
           type: integer
@@ -1970,11 +1970,11 @@ components:
           type: integer
         venue_name:
           type: string
-        organiser_id:
+        provider_id:
           type: integer
-        organiser_name:
+        provider_name:
           type: string
-        organiser_class_image:
+        provider_class_image:
           type: string
         stage:
           type: string
@@ -2014,9 +2014,9 @@ components:
       title: Link
       type: object
       properties:
-        organiser_id:
+        provider_id:
           type: integer
-        organiser_name:
+        provider_name:
           type: string
         user_id:
           type: string
@@ -2047,8 +2047,8 @@ components:
           type: integer
         product_name:
           type: string
-    Organiser:
-      title: Organiser
+    Provider:
+      title: Provider
       type: object
       properties:
         id:
@@ -2149,7 +2149,7 @@ components:
             - Successful
             - Failed
             - Refunded
-        organiser_name:
+        provider_name:
           type: string
         booking:
           $ref: "#/components/schemas/Booking"
@@ -2278,7 +2278,7 @@ components:
           type: integer
         name:
           type: string
-        organiser_name:
+        provider_name:
           type: string
         active:
           type: boolean
@@ -2295,7 +2295,7 @@ components:
       properties:
         id:
           type: integer
-        organiser_id:
+        provider_id:
           type: integer
         plan_name:
           type: string
@@ -2404,8 +2404,8 @@ components:
           format: date-time
         expired:
           type: boolean
-        organiser:
-          $ref: "#/components/schemas/Organiser"
+        provider:
+          $ref: "#/components/schemas/Provider"
         class:
           $ref: "#/components/schemas/Class"
   securitySchemes:
@@ -2574,7 +2574,7 @@ tags:
   - name: Days
   - name: Links
   - name: Metrics
-  - name: Organisers
+  - name: Providers
   - name: Payment Intents
   - name: Payments
   - name: Ping

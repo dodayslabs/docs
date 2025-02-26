@@ -5,13 +5,13 @@ meta {
 }
 
 get {
-  url: {{protocol}}://{{host}}/{{version}}/payments?filter[organiser]=1
+  url: {{protocol}}://{{host}}/{{version}}/payments?filter[provider]=1
   body: none
   auth: bearer
 }
 
 query {
-  filter[organiser]: 1
+  filter[provider]: 1
 }
 
 auth:bearer {
