@@ -1,3 +1,3 @@
 ## DoDays Docs
 
-OpenAPI specification, docs and Bruno collection for the DoDays API.
+Documentation and OpenAPI specification for the DoDays API.

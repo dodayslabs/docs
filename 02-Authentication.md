@@ -50,6 +50,7 @@ If your request succeeds, the `User` object will be returned.
     "telephone": "01913334444",
     "street": null,
     "town": null,
+    "region": null,
     "postcode": null,
     "emergency_name": null,
     "emergency_telephone": null,
