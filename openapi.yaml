@@ -2,7 +2,6 @@ openapi: 3.1.0
 info:
   title: Reference
   version: "1.0"
-  summary: API Reference
   description: The DoDays API reference.
   contact:
     name: DoDays Engineering
@@ -623,12 +622,16 @@ paths:
           required: true
         - schema:
             type: array
+            items:
+              type: integer
           in: query
           name: "filter[sessions][]"
           description: IDs of the sessions
           required: true
         - schema:
             type: array
+            items:
+              type: integer
           in: query
           name: "filter[students][]"
           description: IDs of the students
@@ -736,7 +739,7 @@ paths:
     parameters: []
     post:
       summary: Book catch-up
-      operationId: post-bank-booking-session
+      operationId: post-book-catch-up
       description: Book a catch-up session.
       responses:
         "201":
@@ -1232,6 +1235,8 @@ paths:
           required: true
         - schema:
             type: array
+            items:
+              type: integer
           in: query
           name: "filter[students][]"
           description: IDs of the students
@@ -1646,6 +1651,12 @@ paths:
       tags:
         - Students
   "/students/{studentId}/goals":
+    parameters:
+      - schema:
+          type: string
+        name: studentId
+        in: path
+        required: true
     post:
       operationId: post-student-goal
       summary: Create student goal
