@@ -15,196 +15,32 @@ servers:
   - description: Production
     url: "https://api.dodays.co.uk/v1"
 paths:
-  /ping:
+  /abilities:
     parameters: []
     get:
-      summary: Ping
-      operationId: get-ping
+      summary: List abilities
+      operationId: get-abilities
       responses:
         "200":
-          description: Pong.
-          content:
-            application/json:
-              schema:
-                type: array
-                items: {}
-              examples:
-                Example 1:
-                  value:
-                    - pong
-      description: Ping pong.
-      tags:
-        - Ping
-  /whoami:
-    parameters: []
-    get:
-      summary: Whoami
-      operationId: get-whoami
-      responses:
-        "200":
-          $ref: "#/components/responses/User"
-      description: Retrieve the authenticated user.
-      tags:
-        - Auth
-  /auth/register:
-    parameters: []
-    post:
-      summary: Register a user
-      operationId: post-register
-      responses:
-        "201":
-          $ref: "#/components/responses/Token"
-      description: Register and retrieve a token.
-      security: []
-      tags:
-        - Auth
-      requestBody:
-        $ref: "#/components/requestBodies/Register"
-  /auth/token:
-    parameters: []
-    post:
-      summary: Get a token
-      operationId: post-token
-      responses:
-        "200":
-          $ref: "#/components/responses/Token"
-      description: Sign in and retrieve a token.
-      security: []
-      tags:
-        - Auth
-      requestBody:
-        $ref: "#/components/requestBodies/Token"
-  /auth/forgot-password:
-    parameters: []
-    post:
-      summary: Password reset link
-      operationId: post-forgot-password
-      responses:
-        "200":
-          $ref: "#/components/responses/Status"
-      description: Request a password reset link.
-      security: []
-      tags:
-        - Auth
-      requestBody:
-        $ref: "#/components/requestBodies/ForgotPassword"
-  /auth/reset-password:
-    parameters: []
-    post:
-      summary: Reset password
-      operationId: post-reset-password
-      responses:
-        "200":
-          $ref: "#/components/responses/Status"
-      description: Reset the users password.
-      security: []
-      tags:
-        - Auth
-      requestBody:
-        $ref: "#/components/requestBodies/ResetPassword"
-  /activate:
-    parameters: []
-    post:
-      summary: Activate a user
-      operationId: post-activate
-      responses:
-        "204":
-          description: No content.
-      description: Activate a user account.
-      security: []
-      tags:
-        - Users
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                terms:
-                  type: array
-                  items:
-                    type: boolean
-                marketing:
-                  type: array
-                  items:
-                    type: boolean
-        description: Activates the users account.
-  "/providers/{providerId}/accept":
-    parameters:
-      - schema:
-          type: string
-        name: providerId
-        in: path
-        required: true
-    post:
-      summary: Connect accept
-      operationId: post-connect-accept
-      responses:
-        "204":
-          description: No content.
-      description: Acccept a connect request.
-      security: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                terms:
-                  type: boolean
-                marketing:
-                  type: boolean
-        description: Accepts the providers connect request.
-      tags:
-        - Users
-  "/providers/{providerId}/reject":
-    parameters:
-      - schema:
-          type: string
-        name: providerId
-        in: path
-        required: true
-    post:
-      summary: Connect reject
-      operationId: post-connect-reject
-      responses:
-        "204":
-          description: No content.
-      description: Reject a connect request.
-      security: []
-      requestBody:
-        content: {}
-        description: Rejects the providers connect request.
-      tags:
-        - Users
-  /links:
-    parameters: []
-    get:
-      summary: Get a link
-      operationId: get-link
-      responses:
-        "200":
-          description: Returns the users link for the given provider.
+          description: Returns a list of abilities.
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Link"
-      description: Retrieve a provider link.
+                  "1":
+                    type: string
+              examples:
+                Example 1:
+                  value:
+                    "1": Beginner
+                    "2": Intermediate
+                    "3": Advanced
+      description: Retrieve a list of abilities.
       x-internal: false
-      parameters:
-        - schema:
-            type: integer
-          in: query
-          name: "filter[provider]"
-          description: ID of the provider
       security: []
       tags:
-        - Links
+        - Abilities
   /account/details:
     parameters: []
     patch:
@@ -249,7 +85,7 @@ paths:
                   first_name: Jim
                   last_name: Brown
                   email: jim@thebrowns.com
-                  telephone: "01913334444"
+                  telephone: "01912345678"
                   street: 1 Brown Street
                   town: Brown Town
                   region: Brown
@@ -283,7 +119,7 @@ paths:
               Example 1:
                 value:
                   name: Sue Brown
-                  telephone: "01913334445"
+                  telephone: "01912345679"
                   relationship: sue@thebrowns.com
         description: Updates the users emergency contact.
       tags:
@@ -434,297 +270,6 @@ paths:
       x-internal: false
       tags:
         - Account
-  /providers:
-    parameters: []
-    get:
-      summary: List providers
-      operationId: get-providers
-      responses:
-        "200":
-          description: |-
-            Returns a list of Provider objects.
-
-            When the user filter is provided, the list contains only providers the user is linked too.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Provider"
-      description: Retrieve a list of providers.
-      x-internal: false
-      parameters:
-        - schema:
-            type: integer
-          in: query
-          name: "filter[user]"
-          description: ID of the user
-      tags:
-        - Providers
-      security: []
-  "/providers/{providerId}":
-    parameters:
-      - schema:
-          type: string
-        name: providerId
-        in: path
-        required: true
-    get:
-      summary: Get an provider
-      responses:
-        "200":
-          description: Returns an Provider object.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    $ref: "#/components/schemas/Provider"
-        "404":
-          description: Provider not found.
-      operationId: get-provider
-      description: Retrieve the provider.
-      x-internal: false
-      tags:
-        - Providers
-      security: []
-  /venues:
-    parameters: []
-    get:
-      summary: List venues
-      operationId: get-venues
-      responses:
-        "200":
-          description: Returns a list of Venue objects.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Venue"
-      description: Retrieve a list of venues.
-      x-internal: false
-      security: []
-      tags:
-        - Venues
-  "/venues/{venueId}":
-    parameters:
-      - schema:
-          type: string
-        name: venueId
-        in: path
-        required: true
-    get:
-      summary: Get a venue
-      responses:
-        "200":
-          description: Returns a Venue object.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    $ref: "#/components/schemas/Venue"
-        "404":
-          description: Venue not found.
-      operationId: get-venue
-      description: Retrieve the venue.
-      x-internal: false
-      security: []
-      tags:
-        - Venues
-  /terms:
-    parameters: []
-    get:
-      summary: List terms
-      operationId: get-terms
-      responses:
-        "200":
-          description: Returns a list of Term objects.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Term"
-      description: Retrieve a list of terms.
-      x-internal: false
-      security: []
-      tags:
-        - Terms
-  /classes:
-    parameters: []
-    get:
-      summary: List classes
-      operationId: get-classes
-      responses:
-        "200":
-          description: Returns a list of Class objects.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Class"
-      description: Retrieve a list of classes.
-      parameters:
-        - schema:
-            type: integer
-          in: query
-          name: "filter[provider]"
-          description: ID of the provider
-        - schema:
-            type: integer
-            format: date
-          in: query
-          name: "filter[term]"
-          description: ID of the term
-        - schema:
-            type: integer
-          in: query
-          name: "filter[venue]"
-          description: ID of the venue
-        - schema:
-            type: integer
-          in: query
-          name: "filter[stage]"
-          description: ID of the stage
-        - schema:
-            type: string
-          in: query
-          name: "filter[age][interval]"
-          description: "Interval between the min and max age i.e. month, year"
-        - schema:
-            type: integer
-          in: query
-          name: "filter[age][min]"
-          description: Minimum age threshold
-        - schema:
-            type: integer
-          in: query
-          name: "filter[age][max]"
-          description: Maximum age threshold
-        - schema:
-            type: integer
-          in: query
-          name: "filter[ability]"
-          description: ID of the ability
-        - schema:
-            type: integer
-          in: query
-          name: "filter[activity]"
-          description: ID of the activity
-        - schema:
-            type: string
-          in: query
-          name: "filter[day]"
-          description: "Numerical day of the week i.e. 1 = Sunday, 2 = Monday etc."
-        - schema:
-            type: string
-          in: query
-          name: "filter[search]"
-          description: "Phrase to match the class name, venue name and provider name"
-        - schema:
-            type: integer
-          in: query
-          name: page
-          description: Pagination page number
-        - schema:
-            type: integer
-          in: query
-          name: limit
-          description: Pagination page limit
-      security: []
-      tags:
-        - Classes
-  "/classes/{classId}":
-    parameters:
-      - schema:
-          type: string
-        name: classId
-        in: path
-        required: true
-    get:
-      summary: Get a class
-      responses:
-        "200":
-          description: Returns a Class object.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    $ref: "#/components/schemas/Class"
-        "404":
-          description: Class not found.
-      operationId: get-class
-      description: Retrieve the class.
-      x-internal: false
-      tags:
-        - Classes
-      security: []
-  /classes/costs:
-    parameters: []
-    get:
-      summary: List class costs
-      operationId: get-class-costs
-      responses:
-        "200":
-          description: "Returns a list of lesson costs, in pence format, associated to the classes in the given term."
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: integer
-      description: Retrieve a list of class costs.
-      x-internal: false
-      parameters:
-        - schema:
-            type: integer
-          in: query
-          name: "filter[term]"
-          description: ID of the term
-      security: []
-      tags:
-        - Classes
-  /stages:
-    parameters: []
-    get:
-      summary: List stages
-      operationId: get-stages
-      responses:
-        "200":
-          description: Returns a list of Stage objects.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Stage"
-      description: Retrieve a list of stages.
-      x-internal: false
-      security: []
-      tags:
-        - Stages
   /activities:
     parameters: []
     get:
@@ -751,628 +296,129 @@ paths:
       security: []
       tags:
         - Activities
-  /abilities:
+  /whoami:
     parameters: []
     get:
-      summary: List abilities
-      operationId: get-abilities
+      summary: Whoami
+      operationId: get-whoami
       responses:
         "200":
-          description: Returns a list of abilities.
+          $ref: "#/components/responses/User"
+      description: Retrieve the authenticated user.
+      tags:
+        - Auth
+  /auth/register:
+    parameters: []
+    post:
+      summary: Register a user
+      operationId: post-register
+      responses:
+        "201":
+          $ref: "#/components/responses/Token"
+      description: Register and retrieve a token.
+      security: []
+      tags:
+        - Auth
+      requestBody:
+        $ref: "#/components/requestBodies/Register"
+  /auth/token:
+    parameters: []
+    post:
+      summary: Get a token
+      operationId: post-token
+      responses:
+        "200":
+          $ref: "#/components/responses/Token"
+      description: Sign in and retrieve a token.
+      security: []
+      tags:
+        - Auth
+      requestBody:
+        $ref: "#/components/requestBodies/Token"
+  /auth/forgot-password:
+    parameters: []
+    post:
+      summary: Password reset link
+      operationId: post-forgot-password
+      responses:
+        "200":
+          $ref: "#/components/responses/Status"
+      description: Request a password reset link.
+      security: []
+      tags:
+        - Auth
+      requestBody:
+        $ref: "#/components/requestBodies/ForgotPassword"
+  /auth/reset-password:
+    parameters: []
+    post:
+      summary: Reset password
+      operationId: post-reset-password
+      responses:
+        "200":
+          $ref: "#/components/responses/Status"
+      description: Reset the users password.
+      security: []
+      tags:
+        - Auth
+      requestBody:
+        $ref: "#/components/requestBodies/ResetPassword"
+  /booking-sessions:
+    parameters: []
+    get:
+      summary: List booking sessions
+      operationId: get-booking-sessions
+      responses:
+        "200":
+          description: Returns a list of Booking Session objects.
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  "1":
-                    type: string
-              examples:
-                Example 1:
-                  value:
-                    "1": Beginner
-                    "2": Intermediate
-                    "3": Advanced
-      description: Retrieve a list of abilities.
-      x-internal: false
-      security: []
-      tags:
-        - Abilities
-  /referrals:
-    parameters: []
-    get:
-      summary: List referrals
-      operationId: get-referrals
-      responses:
-        "200":
-          description: Returns a list of referrals.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  "1":
-                    type: string
-              examples:
-                Example 1:
-                  value:
-                    facebook: Facebook
-                    searchEngine: Search Engine
-                    wordOfMouth: Word Of Mouth
-      description: Retrieve a list of referrals.
-      x-internal: false
-      security: []
-      tags:
-        - Referrals
-  /days:
-    parameters: []
-    get:
-      summary: List days
-      operationId: get-days
-      responses:
-        "200":
-          description: Returns a list of days the provider delivers classes.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: string
-              examples:
-                Example 1:
-                  value:
-                    - Monday
-                    - Wednesday
-      description: Retrieve a list of days.
-      x-internal: false
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/BookingSession"
+      description: Retrieve a list of booking sessions.
       parameters:
         - schema:
             type: integer
           in: query
           name: "filter[provider]"
           description: ID of the provider
-      security: []
+        - schema:
+            type: integer
+          in: query
+          name: "filter[student]"
+          description: ID of the student
+        - schema:
+            type: boolean
+          in: query
+          name: "filter[banked]"
+          description: Whether the booking session has been banked
       tags:
-        - Days
-  /waitees:
-    parameters: []
-    post:
-      summary: Create a waitee
-      operationId: post-waitee
-      responses:
-        "200":
-          description: Waitee created.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Waitee"
-      tags:
-        - Waitees
-      description: Create a new waitee.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                provider_id:
-                  type: integer
-                first_name:
-                  type: string
-                last_name:
-                  type: string
-                email:
-                  type: string
-                telephone:
-                  type: string
-                students:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      first_name:
-                        type: string
-                      last_name:
-                        type: string
-                      dob:
-                        type: string
-                        format: date
-                      medical:
-                        type: string
-                      stage_id:
-                        type: integer
-                venues:
-                  type: array
-                  items:
-                    type: integer
-                days:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      day:
-                        type: string
-                      time:
-                        type: string
-                    required:
-                      - day
-                notes:
-                  type: string
-              required:
-                - provider_id
-                - students
-                - venues
-                - days
-        description: |-
-          Creates a new waitee.
-          If a user is signed in, `students.id` is required and the waitee will be associated to the authenticated user.
-          If no user is signed in, `first_name`, `last_name`, `email`, `telephone`, `students.first_name` and `students.last_name` are required.
-  "/waitees/{inviteCode}":
+        - Booking Sessions
+  "/booking-sessions/{bookingSessionId}/bank":
     parameters:
       - schema:
           type: string
-        name: inviteCode
+        name: bookingSessionId
         in: path
         required: true
-    get:
-      summary: Get a waitee
-      responses:
-        "200":
-          description: Returns a Waitee object.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    $ref: "#/components/schemas/Waitee"
-        "404":
-          description: Waitee not found.
-      operationId: get-waitee
-      description: Retrieve the waitee.
-      x-internal: false
-      security: []
-      tags:
-        - Waitees
-    delete:
-      summary: Delete a waitee
-      operationId: delete-waitee
+    post:
+      summary: Bank booking session
+      operationId: post-bank-booking-session
+      description: Bank a booking session.
       responses:
         "204":
-          description: Waitee deleted.
-      description: Delete a waitee.
-      tags:
-        - Waitees
-  /vouchers:
-    parameters: []
-    post:
-      summary: Create a voucher
-      operationId: post-voucher
-      responses:
-        "200":
-          description: Voucher created.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Voucher"
-      description: Create a new voucher.
+          description: No content.
       requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                product_id:
-                  type: integer
-                name:
-                  type: string
-                email:
-                  type: string
-                payment_intent:
-                  type: string
-                terms:
-                  type: boolean
-              required:
-                - product_id
-                - name
-                - email
-                - terms
-        description: Creates a new voucher.
-      tags:
-        - Vouchers
-  /vouchers/check:
-    parameters: []
-    post:
-      summary: Check a voucher
-      operationId: post-voucher-check
-      responses:
-        "200":
-          description: Returns a message relating to the status of the voucher.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-      description: Check a voucher code.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                code:
-                  type: string
-        description: Checks a voucher code exists.
-      tags:
-        - Vouchers
-  /payment-intents:
-    post:
-      summary: Create a payment intent
-      operationId: post-payment-intent
-      responses:
-        "200":
-          description: Payment intent created.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  intent:
-                    type: string
-                  method:
-                    type: string
-                  client_secret:
-                    type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                provider_id:
-                  type: integer
-                booking_id:
-                  type: integer
-                subscription_id:
-                  type: integer
-                customer:
-                  type: string
-                payment_method:
-                  type: string
-                amount:
-                  type: integer
-                force_absorb:
-                  type: boolean
-                overrides:
-                  type: object
-                  properties:
-                    payment_method_types:
-                      type: array
-                      items:
-                        type: string
-                    setup_future_usage:
-                      type: string
-                    capture_method:
-                      type: string
-              required:
-                - provider_id
-                - payment_method
-                - amount
-        description: Creates a new payment intent on Stripe.
-      description: Create a new payment intent.
+        content: {}
+        description: Banks a booking session.
       x-internal: false
       tags:
-        - Payment Intents
-    parameters: []
-    patch:
-      summary: Update a payment intent
-      operationId: patch-payment-intent
-      responses:
-        "200":
-          description: Payment intent updated.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  intent:
-                    type: string
-                  method:
-                    type: string
-                  client_secret:
-                    type: string
-      description: Updates a payment intent.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                provider_id:
-                  type: integer
-                booking_id:
-                  type: integer
-                subscription_id:
-                  type: integer
-                payment_intent:
-                  type: string
-                payment_method:
-                  type: string
-                amount:
-                  type: integer
-                force_absorb:
-                  type: boolean
-        description: Updates the payment intent on Stripe.
-      tags:
-        - Payment Intents
-  /students:
-    post:
-      summary: Create a student
-      operationId: post-student
-      responses:
-        "201":
-          description: Student created.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    $ref: "#/components/schemas/Student"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                provider_id:
-                  type: integer
-                first_name:
-                  type: string
-                last_name:
-                  type: string
-                dob:
-                  type: string
-                  format: date
-                due_date:
-                  type: string
-                  format: date
-                medical:
-                  type: string
-                relation:
-                  type: string
-                stage_id:
-                  type: integer
-                notes:
-                  type: string
-              required:
-                - provider_id
-                - first_name
-                - last_name
-        description: Creates a new family member.
-      description: Create a new family member.
-      x-internal: false
-      tags:
-        - Students
-    parameters: []
-    get:
-      summary: List students
-      operationId: get-students
-      responses:
-        "200":
-          description: |-
-            Returns a list of Student objects.
-
-            When the class filter is provided, the list contains only students who qualify the class based on age.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Student"
-      description: Retrieve a list of family members.
-      x-internal: false
-      tags:
-        - Students
-      parameters:
-        - schema:
-            type: integer
-          in: query
-          name: "filter[class]"
-          description: ID of the class
-  "/students/{studentId}":
-    parameters:
-      - schema:
-          type: string
-        name: studentId
-        in: path
-        required: true
-    get:
-      summary: Get a student
-      tags:
-        - Students
-      responses:
-        "200":
-          description: Returns a Student object.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    $ref: "#/components/schemas/Student"
-        "403":
-          description: Forbidden.
-        "404":
-          description: Student not found.
-      operationId: get-student
-      description: Retrieve the family member.
-      x-internal: false
-    patch:
-      summary: Update a student
-      operationId: patch-student
-      responses:
-        "200":
-          description: Returns a Student object.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    $ref: "#/components/schemas/Student"
-        "403":
-          description: Forbidden.
-        "404":
-          description: Student not found.
-      description: Update the family member.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                first_name:
-                  type: string
-                last_name:
-                  type: string
-                dob:
-                  type: string
-                  format: date
-                medical:
-                  type: string
-              required:
-                - first_name
-                - last_name
-                - dob
-        description: Updates the family member.
-      x-internal: false
-      tags:
-        - Students
-  "/students/{studentId}/stages":
-    parameters:
-      - schema:
-          type: string
-        name: studentId
-        in: path
-        required: true
-    get:
-      summary: List student stages
-      tags:
-        - Students
-      responses:
-        "200":
-          description: Return a list of StudentStage objects.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/StudentStage"
-        "403":
-          description: Forbidden.
-        "404":
-          description: Student not found.
-      operationId: get-student-stages
-      description: Retrieve a list of the family members stages.
-      x-internal: false
-  /prices:
-    parameters: []
-    get:
-      summary: List prices
-      operationId: get-prices
-      responses:
-        "200":
-          description: |-
-            Returns a list of Price objects.
-
-            When the class filter is provided, the list contains only prices that are available for this class.
-
-            When the students filter is provided, the list contains only prices that are available for all students.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Price"
-      description: Retrieve a list of prices.
-      parameters:
-        - schema:
-            type: integer
-          in: query
-          name: "filter[class]"
-          description: ID of the class
-          required: true
-        - schema:
-            type: array
-          in: query
-          name: "filter[students][]"
-          description: IDs of the students
-          required: true
-      tags:
-        - Prices
-  /coupons/apply:
-    parameters: []
-    post:
-      summary: Apply coupon
-      operationId: post-apply-coupon
-      responses:
-        "200":
-          description: Returns a Discount or Voucher object.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    oneOf:
-                      - $ref: "#/components/schemas/Discount"
-                      - $ref: "#/components/schemas/Voucher"
-                  meta:
-                    type: object
-                    properties:
-                      type:
-                        type: string
-                        enum:
-                          - discount
-                          - voucher
-              examples: {}
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                class:
-                  type: integer
-                code:
-                  type: string
-        description: Applies a Discount or Voucher to the booking.
-      description: Apply a Discount or Voucher.
-      tags:
-        - Coupons
+        - Booking Sessions
   /bookings:
     post:
       summary: Create a booking
@@ -1486,7 +532,7 @@ paths:
       operationId: get-bookings
       responses:
         "200":
-          description: Booking created.
+          description: Returns a list of Booking objects.
           content:
             application/json:
               schema:
@@ -1660,6 +706,454 @@ paths:
                 payment_intent:
                   type: string
         description: Pays for a booking.
+  /available-catch-up-sessions:
+    parameters: []
+    get:
+      operationId: get-available-catch-up-sessions
+      summary: List catch-up sessions
+      description: Retrieve a list of available catch-up sessions.
+      responses:
+        "200":
+          description: Returns a list of Session objects.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Session"
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: "filter[banked_session]"
+          description: ID of the banked booking session
+      tags:
+        - Catch-ups
+  /catch-ups:
+    parameters: []
+    post:
+      summary: Book catch-up
+      operationId: post-bank-booking-session
+      description: Book a catch-up session.
+      responses:
+        "201":
+          description: Catch-up session created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Booking"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                banked_session_id:
+                  type: integer
+                session_id:
+                  type: integer
+        description: Books a booking session.
+      x-internal: false
+      tags:
+        - Catch-ups
+  /classes:
+    parameters: []
+    get:
+      summary: List classes
+      operationId: get-classes
+      description: Retrieve a list of classes.
+      responses:
+        "200":
+          description: Returns a list of Class objects.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Class"
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: "filter[provider]"
+          description: ID of the provider
+        - schema:
+            type: integer
+            format: date
+          in: query
+          name: "filter[term]"
+          description: ID of the term
+        - schema:
+            type: integer
+          in: query
+          name: "filter[venue]"
+          description: ID of the venue
+        - schema:
+            type: integer
+          in: query
+          name: "filter[stage]"
+          description: ID of the stage
+        - schema:
+            type: string
+          in: query
+          name: "filter[age][interval]"
+          description: "Interval between the min and max age i.e. month, year"
+        - schema:
+            type: integer
+          in: query
+          name: "filter[age][min]"
+          description: Minimum age threshold
+        - schema:
+            type: integer
+          in: query
+          name: "filter[age][max]"
+          description: Maximum age threshold
+        - schema:
+            type: integer
+          in: query
+          name: "filter[ability]"
+          description: ID of the ability
+        - schema:
+            type: integer
+          in: query
+          name: "filter[activity]"
+          description: ID of the activity
+        - schema:
+            type: string
+          in: query
+          name: "filter[day]"
+          description: "Numerical day of the week i.e. 1 = Sunday, 2 = Monday etc."
+        - schema:
+            type: string
+          in: query
+          name: "filter[search]"
+          description: "Phrase to match the class name, venue name and provider name"
+        - schema:
+            type: integer
+          in: query
+          name: page
+          description: Pagination page number
+        - schema:
+            type: integer
+          in: query
+          name: limit
+          description: Pagination page limit
+      security: []
+      tags:
+        - Classes
+  "/classes/{classId}":
+    parameters:
+      - schema:
+          type: string
+        name: classId
+        in: path
+        required: true
+    get:
+      summary: Get a class
+      responses:
+        "200":
+          description: Returns a Class object.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Class"
+        "404":
+          description: Class not found.
+      operationId: get-class
+      description: Retrieve the class.
+      x-internal: false
+      tags:
+        - Classes
+      security: []
+  /class-costs:
+    parameters: []
+    get:
+      summary: List class costs
+      operationId: get-class-costs
+      responses:
+        "200":
+          description: "Returns a list of session costs, in pence format, associated to the classes in the given term."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: integer
+      description: Retrieve a list of class costs.
+      x-internal: false
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: "filter[term]"
+          description: ID of the term
+      security: []
+      tags:
+        - Classes
+  /coupons/apply:
+    parameters: []
+    post:
+      summary: Apply coupon
+      operationId: post-apply-coupon
+      responses:
+        "200":
+          description: Returns a Discount or Voucher object.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    oneOf:
+                      - $ref: "#/components/schemas/Discount"
+                      - $ref: "#/components/schemas/Voucher"
+                  meta:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                          - discount
+                          - voucher
+              examples: {}
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                class:
+                  type: integer
+                code:
+                  type: string
+        description: Applies a Discount or Voucher to the booking.
+      description: Apply a Discount or Voucher.
+      tags:
+        - Coupons
+  /days:
+    parameters: []
+    get:
+      summary: List days
+      operationId: get-days
+      responses:
+        "200":
+          description: Returns a list of days the provider delivers classes.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+              examples:
+                Example 1:
+                  value:
+                    - Monday
+                    - Wednesday
+      description: Retrieve a list of days.
+      x-internal: false
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: "filter[provider]"
+          description: ID of the provider
+      security: []
+      tags:
+        - Days
+  /links:
+    parameters: []
+    get:
+      summary: Get a link
+      operationId: get-link
+      responses:
+        "200":
+          description: Returns the users link for the given provider.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Link"
+      description: Retrieve a provider link.
+      x-internal: false
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: "filter[provider]"
+          description: ID of the provider
+      security: []
+      tags:
+        - Links
+  "/metics/{domain}/{metric}":
+    parameters:
+      - schema:
+          type: string
+        name: domain
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: metric
+        in: path
+        required: true
+    get:
+      summary: Get a metric
+      responses:
+        "200":
+          description: Returns the trend or value metric.
+          content:
+            application/json:
+              schema:
+                type: object
+                oneOf:
+                  - properties:
+                      trend:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            label:
+                              type: string
+                            value:
+                              type: integer
+                  - properties:
+                      value:
+                        type: integer
+                      previous:
+                        type: integer
+        "404":
+          description: Booking not found.
+      operationId: get-metric
+      description: Retrieve the metric.
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: provider_id
+          description: ID of the provider
+        - schema:
+            type: string
+          in: query
+          name: "filter[date_range]"
+          description: Date range
+      tags:
+        - Metrics
+  /payment-intents:
+    post:
+      summary: Create a payment intent
+      operationId: post-payment-intent
+      responses:
+        "200":
+          description: Payment intent created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  intent:
+                    type: string
+                  method:
+                    type: string
+                  client_secret:
+                    type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                provider_id:
+                  type: integer
+                booking_id:
+                  type: integer
+                subscription_id:
+                  type: integer
+                customer:
+                  type: string
+                payment_method:
+                  type: string
+                amount:
+                  type: integer
+                force_absorb:
+                  type: boolean
+                overrides:
+                  type: object
+                  properties:
+                    payment_method_types:
+                      type: array
+                      items:
+                        type: string
+                    setup_future_usage:
+                      type: string
+                    capture_method:
+                      type: string
+              required:
+                - provider_id
+                - payment_method
+                - amount
+        description: Creates a new payment intent on Stripe.
+      description: Create a new payment intent.
+      x-internal: false
+      tags:
+        - Payment Intents
+    parameters: []
+    patch:
+      summary: Update a payment intent
+      operationId: patch-payment-intent
+      responses:
+        "200":
+          description: Payment intent updated.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  intent:
+                    type: string
+                  method:
+                    type: string
+                  client_secret:
+                    type: string
+      description: Updates a payment intent.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                provider_id:
+                  type: integer
+                booking_id:
+                  type: integer
+                subscription_id:
+                  type: integer
+                payment_intent:
+                  type: string
+                payment_method:
+                  type: string
+                amount:
+                  type: integer
+                force_absorb:
+                  type: boolean
+        description: Updates the payment intent on Stripe.
+      tags:
+        - Payment Intents
   /payments:
     parameters: []
     get:
@@ -1686,6 +1180,532 @@ paths:
           description: ID of the provider
       tags:
         - Payments
+  /ping:
+    parameters: []
+    get:
+      summary: Ping
+      operationId: get-ping
+      responses:
+        "200":
+          description: Pong.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+              examples:
+                Example 1:
+                  value:
+                    - pong
+      description: Ping pong.
+      tags:
+        - Ping
+  /prices:
+    parameters: []
+    get:
+      summary: List prices
+      operationId: get-prices
+      responses:
+        "200":
+          description: |-
+            Returns a list of Price objects.
+
+            When the class filter is provided, the list contains only prices that are available for this class.
+
+            When the students filter is provided, the list contains only prices that are available for all students.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Price"
+      description: Retrieve a list of prices.
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: "filter[class]"
+          description: ID of the class
+          required: true
+        - schema:
+            type: array
+          in: query
+          name: "filter[students][]"
+          description: IDs of the students
+          required: true
+      tags:
+        - Prices
+  /providers:
+    parameters: []
+    get:
+      summary: List providers
+      operationId: get-providers
+      responses:
+        "200":
+          description: |-
+            Returns a list of Provider objects.
+
+            When the user filter is provided, the list contains only providers the user is linked too.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Provider"
+      description: Retrieve a list of providers.
+      x-internal: false
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: "filter[user]"
+          description: ID of the user
+      tags:
+        - Providers
+      security: []
+  "/providers/{providerId}":
+    parameters:
+      - schema:
+          type: string
+        name: providerId
+        in: path
+        required: true
+    get:
+      summary: Get an provider
+      responses:
+        "200":
+          description: Returns a Provider object.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Provider"
+        "404":
+          description: Provider not found.
+      operationId: get-provider
+      description: Retrieve the provider.
+      x-internal: false
+      tags:
+        - Providers
+      security: []
+  /referrals:
+    parameters: []
+    get:
+      summary: List referrals
+      operationId: get-referrals
+      responses:
+        "200":
+          description: Returns a list of referrals.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  "1":
+                    type: string
+              examples:
+                Example 1:
+                  value:
+                    facebook: Facebook
+                    searchEngine: Search Engine
+                    wordOfMouth: Word Of Mouth
+      description: Retrieve a list of referrals.
+      x-internal: false
+      security: []
+      tags:
+        - Referrals
+  /setup-intents:
+    post:
+      summary: Create a setup intent
+      operationId: post-setup-intent
+      responses:
+        "200":
+          description: Setup intent created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  client_secret:
+                    type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                provider_id:
+                  type: integer
+                customer:
+                  type: string
+                overrides:
+                  type: object
+                  properties:
+                    payment_method_types:
+                      type: array
+                      items:
+                        type: string
+              required:
+                - provider_id
+                - customer
+        description: Creates a new setup intent on Stripe.
+      description: Create a new setup intent.
+      x-internal: false
+      tags:
+        - Setup Intents
+    parameters: []
+  /stages:
+    parameters: []
+    get:
+      summary: List stages
+      operationId: get-stages
+      responses:
+        "200":
+          description: Returns a list of Stage objects.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Stage"
+      description: Retrieve a list of stages.
+      x-internal: false
+      security: []
+      tags:
+        - Stages
+  /students:
+    parameters: []
+    post:
+      summary: Create a student
+      operationId: post-student
+      responses:
+        "201":
+          description: Student created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Student"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                provider_id:
+                  type: integer
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+                dob:
+                  type: string
+                  format: date
+                medical:
+                  type: string
+                relation:
+                  type: string
+                stage_id:
+                  type: integer
+                notes:
+                  type: string
+              required:
+                - provider_id
+                - first_name
+                - last_name
+        description: Creates a new family member.
+      description: Create a new family member.
+      x-internal: false
+      tags:
+        - Students
+    get:
+      summary: List students
+      operationId: get-students
+      responses:
+        "200":
+          description: |-
+            Returns a list of Student objects.
+
+            When the class filter is provided, the list contains only students who qualify the class based on age.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Student"
+      description: Retrieve a list of family members.
+      x-internal: false
+      tags:
+        - Students
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: "filter[class]"
+          description: ID of the class
+  "/students/{studentId}":
+    parameters:
+      - schema:
+          type: string
+        name: studentId
+        in: path
+        required: true
+    get:
+      summary: Get a student
+      tags:
+        - Students
+      responses:
+        "200":
+          description: Returns a Student object.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Student"
+        "403":
+          description: Forbidden.
+        "404":
+          description: Student not found.
+      operationId: get-student
+      description: Retrieve the family member.
+      x-internal: false
+    patch:
+      summary: Update a student
+      operationId: patch-student
+      responses:
+        "200":
+          description: Returns a Student object.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Student"
+        "403":
+          description: Forbidden.
+        "404":
+          description: Student not found.
+      description: Update the family member.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+                dob:
+                  type: string
+                  format: date
+                medical:
+                  type: string
+                relation:
+                  type: string
+              required:
+                - first_name
+                - last_name
+                - dob
+        description: Updates the family member.
+      x-internal: false
+      tags:
+        - Students
+  "/students/{studentId}/stages":
+    parameters:
+      - schema:
+          type: string
+        name: studentId
+        in: path
+        required: true
+    post:
+      operationId: post-student-stage
+      summary: Award student stage
+      description: Award a student stage.
+      requestBody:
+        description: Awards a new student stage.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                stage_id:
+                  type: integer
+                awarded_on:
+                  type: string
+              required:
+                - stage_id
+      responses:
+        "200":
+          description: Return a list of StudentStage objects.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  student_id:
+                    type: integer
+                  stage_id:
+                    type: integer
+                  active:
+                    type: boolean
+                  awarded_on:
+                    type: string
+                  created_at:
+                    type: string
+                  updated_at:
+                    type: string
+                  stage:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      provider_id:
+                        type: integer
+                      name:
+                        type: string
+                      class_image:
+                        type: string
+                      order:
+                        type: integer
+                      public:
+                        type: boolean
+                      archived_at:
+                        type: string
+                      created_at:
+                        type: string
+                      updated_at:
+                        type: string
+      x-internal: false
+      tags:
+        - Students
+    get:
+      operationId: get-student-stages
+      summary: List student stages
+      description: Retrieve a list of the family members stages.
+      tags:
+        - Students
+      responses:
+        "200":
+          description: Return a list of StudentStage objects.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/StudentStage"
+        "403":
+          description: Forbidden.
+        "404":
+          description: Student not found.
+      x-internal: false
+  "/students/{studentId}/student-stages/{studentStageId}":
+    parameters:
+      - schema:
+          type: string
+        name: studentId
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: studentStageId
+        in: path
+        required: true
+    delete:
+      operationId: delete-student-stage
+      summary: Delete student stage
+      description: Delete a student stage.
+      responses:
+        "204":
+          description: Student Stage deleted.
+      x-internal: false
+      tags:
+        - Students
+  "/students/{studentId}/goals":
+    post:
+      operationId: post-student-goal
+      summary: Create student goal
+      description: Create a new student goal.
+      requestBody:
+        description: Creates a new student goal.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                goal_id:
+                  type: integer
+              required:
+                - goal_id
+      responses:
+        "200":
+          description: Returns a StudentGoal object.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  goal_id:
+                    type: integer
+                  student_id:
+                    type: integer
+                  booking_id:
+                    type: integer
+                  created_at:
+                    type: string
+                  updated_at:
+                    type: string
+      x-internal: false
+      tags:
+        - Students
+  "/students/{studentId}/goals/{goalId}":
+    parameters:
+      - schema:
+          type: string
+        name: studentId
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: goalId
+        in: path
+        required: true
+    delete:
+      operationId: delete-student-goal
+      summary: Delete student goal
+      description: Delete a student goal.
+      responses:
+        "204":
+          description: Student Goal deleted.
+      x-internal: false
+      tags:
+        - Students
   /subscriptions:
     parameters: []
     get:
@@ -1761,20 +1781,241 @@ paths:
         description: Pays for a subscription.
       tags:
         - Subscriptions
-  /setup-intents:
-    post:
-      summary: Create a setup intent
-      operationId: post-setup-intent
+  /terms:
+    parameters: []
+    get:
+      summary: List terms
+      operationId: get-terms
       responses:
         "200":
-          description: Setup intent created.
+          description: Returns a list of Term objects.
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  client_secret:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Term"
+      description: Retrieve a list of terms.
+      x-internal: false
+      security: []
+      tags:
+        - Terms
+  /activate:
+    parameters: []
+    post:
+      summary: Activate a user
+      operationId: post-activate
+      responses:
+        "204":
+          description: No content.
+      description: Activate a user account.
+      security: []
+      tags:
+        - Users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                terms:
+                  type: array
+                  items:
+                    type: boolean
+                marketing:
+                  type: array
+                  items:
+                    type: boolean
+        description: Activates the users account.
+  "/providers/{providerId}/accept":
+    parameters:
+      - schema:
+          type: string
+        name: providerId
+        in: path
+        required: true
+    post:
+      summary: Connect accept
+      operationId: post-connect-accept
+      responses:
+        "204":
+          description: No content.
+      description: Acccept a connect request.
+      security: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                terms:
+                  type: boolean
+                marketing:
+                  type: boolean
+        description: Accepts the providers connect request.
+      tags:
+        - Users
+  "/providers/{providerId}/reject":
+    parameters:
+      - schema:
+          type: string
+        name: providerId
+        in: path
+        required: true
+    post:
+      summary: Connect reject
+      operationId: post-connect-reject
+      responses:
+        "204":
+          description: No content.
+      description: Reject a connect request.
+      security: []
+      requestBody:
+        content: {}
+        description: Rejects the providers connect request.
+      tags:
+        - Users
+  /venues:
+    parameters: []
+    get:
+      summary: List venues
+      operationId: get-venues
+      responses:
+        "200":
+          description: Returns a list of Venue objects.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Venue"
+      description: Retrieve a list of venues.
+      x-internal: false
+      security: []
+      tags:
+        - Venues
+  "/venues/{venueId}":
+    parameters:
+      - schema:
+          type: string
+        name: venueId
+        in: path
+        required: true
+    get:
+      summary: Get a venue
+      responses:
+        "200":
+          description: Returns a Venue object.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Venue"
+        "404":
+          description: Venue not found.
+      operationId: get-venue
+      description: Retrieve the venue.
+      x-internal: false
+      security: []
+      tags:
+        - Venues
+  /vouchers:
+    parameters: []
+    post:
+      summary: Create a voucher
+      operationId: post-voucher
+      responses:
+        "200":
+          description: Voucher created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Voucher"
+      description: Create a new voucher.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                product_id:
+                  type: integer
+                name:
+                  type: string
+                email:
+                  type: string
+                payment_intent:
+                  type: string
+                terms:
+                  type: boolean
+              required:
+                - product_id
+                - name
+                - email
+                - terms
+        description: Creates a new voucher.
+      tags:
+        - Vouchers
+  /vouchers/check:
+    parameters: []
+    post:
+      summary: Check a voucher
+      operationId: post-voucher-check
+      responses:
+        "200":
+          description: Returns a message relating to the status of the voucher.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
                     type: string
+      description: Check a voucher code.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+        description: Checks a voucher code exists.
+      tags:
+        - Vouchers
+  /waitees:
+    parameters: []
+    post:
+      summary: Create a waitee
+      operationId: post-waitee
+      responses:
+        "200":
+          description: Waitee created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Waitee"
+      tags:
+        - Waitees
+      description: Create a new waitee.
       requestBody:
         content:
           application/json:
@@ -1783,78 +2024,100 @@ paths:
               properties:
                 provider_id:
                   type: integer
-                customer:
+                first_name:
                   type: string
-                overrides:
-                  type: object
-                  properties:
-                    payment_method_types:
-                      type: array
-                      items:
+                last_name:
+                  type: string
+                email:
+                  type: string
+                telephone:
+                  type: string
+                students:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      first_name:
                         type: string
+                      last_name:
+                        type: string
+                      dob:
+                        type: string
+                        format: date
+                      medical:
+                        type: string
+                      stage_id:
+                        type: integer
+                venues:
+                  type: array
+                  items:
+                    type: integer
+                days:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      day:
+                        type: string
+                      time:
+                        type: string
+                    required:
+                      - day
+                notes:
+                  type: string
               required:
                 - provider_id
-                - customer
-        description: Creates a new setup intent on Stripe.
-      description: Create a new setup intent.
-      x-internal: false
-      tags:
-        - Setup Intents
-    parameters: []
-  "/metics/{domain}/{metric}":
+                - students
+                - venues
+                - days
+        description: |-
+          Creates a new waitee.
+          If a user is signed in, `students.id` is required and the waitee will be associated to the authenticated user.
+          If no user is signed in, `first_name`, `last_name`, `email`, `telephone`, `students.first_name` and `students.last_name` are required.
+  "/waitees/{inviteCode}":
     parameters:
       - schema:
           type: string
-        name: domain
-        in: path
-        required: true
-      - schema:
-          type: string
-        name: metric
+        name: inviteCode
         in: path
         required: true
     get:
-      summary: Get a metric
-      responses:
-        "200":
-          description: Returns the trend or value metric.
-          content:
-            application/json:
-              schema:
-                oneOf:
-                  - properties:
-                      trend:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            label:
-                              type: string
-                            value:
-                              type: integer
-                  - properties:
-                      value:
-                        type: integer
-                      previous:
-                        type: integer
-                type: object
-        "404":
-          description: Booking not found.
-      operationId: get-metric
-      description: Retrieve the metric.
+      summary: Get a waitee
       parameters:
         - schema:
             type: integer
           in: query
-          name: club_id
-          description: ID of the provider
-        - schema:
-            type: string
-          in: query
-          name: "filter[date_range]"
-          description: Date range
+          name: "filter[class]"
+          description: ID of the class
+      responses:
+        "200":
+          description: Returns a Waitee object.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Waitee"
+        "404":
+          description: Waitee not found.
+      operationId: get-waitee
+      description: Retrieve the waitee.
+      x-internal: false
+      security: []
       tags:
-        - Metrics
+        - Waitees
+    delete:
+      summary: Delete a waitee
+      operationId: delete-waitee
+      responses:
+        "204":
+          description: Waitee deleted.
+      description: Delete a waitee.
+      tags:
+        - Waitees
 components:
   schemas:
     Booking:
@@ -1877,10 +2140,6 @@ components:
           type: integer
         class_name:
           type: string
-        zoom_id:
-          type: string
-        zoom_password:
-          type: string
         teacher_name:
           type: string
         venue_name:
@@ -1893,6 +2152,8 @@ components:
           type: integer
         credit:
           type: integer
+        catch_up:
+          type: boolean
         payment_method:
           type: string
           enum:
@@ -1934,10 +2195,14 @@ components:
           type: boolean
         absent:
           type: boolean
+        banked:
+          type: boolean
         cancelled:
           type: boolean
         session:
           $ref: "#/components/schemas/Session"
+        catchUpSession:
+          $ref: "#/components/schemas/BookingSession"
     Class:
       title: Class
       type: object
@@ -2073,16 +2338,12 @@ components:
           type: string
         absorb_fee:
           type: boolean
-        session_reminders:
-          type: boolean
         stripe_id:
           type: string
         booking_settings:
           type: object
           properties:
             dob:
-              type: boolean
-            due_date:
               type: boolean
             notes:
               type: boolean
@@ -2094,10 +2355,27 @@ components:
               type: boolean
             stage:
               type: boolean
+            age_range:
+              type: boolean
             same_day:
               type: boolean
             loco_parentis:
               type: boolean
+            advertise_full:
+              type: boolean
+        catch_up_settings:
+          type: object
+          properties:
+            enabled:
+              type: boolean
+            banking:
+              type: integer
+            booking:
+              type: integer
+            expiration:
+              type: integer
+            limit:
+              type: integer
         waiting_list_settings:
           type: object
           properties:
@@ -2106,6 +2384,11 @@ components:
             limit_days:
               type: boolean
             notes:
+              type: boolean
+        notification_settings:
+          type: object
+          properties:
+            session_reminders:
               type: boolean
         connected_at:
           type: string
@@ -2226,6 +2509,8 @@ components:
           format: date-time
         teacher_name:
           type: string
+        venue_name:
+          type: string
         cancelled:
           type: boolean
         spaces_count:
@@ -2250,9 +2535,6 @@ components:
         last_name:
           type: string
         dob:
-          type: string
-          format: date
-        due_date:
           type: string
           format: date
         medical:
@@ -2375,10 +2657,6 @@ components:
           type: string
         landmarks:
           type: string
-        dimensions:
-          type: string
-        depth:
-          type: string
         changing_facilities:
           type: string
     Voucher:
@@ -2453,7 +2731,7 @@ components:
                 email: jim@thebrowns.com
                 password: password
                 password_confirmation: password
-                telephone: "01913334444"
+                telephone: "01912345678"
                 terms: true
                 device_name: Device
       description: Creates and authenticates a new User and generates a new Token.
@@ -2568,17 +2846,19 @@ tags:
   - name: Account
   - name: Activities
   - name: Auth
+  - name: Booking Sessions
   - name: Bookings
+  - name: Catch-ups
   - name: Classes
   - name: Coupons
   - name: Days
   - name: Links
   - name: Metrics
-  - name: Providers
   - name: Payment Intents
   - name: Payments
   - name: Ping
   - name: Prices
+  - name: Providers
   - name: Referrals
   - name: Setup Intents
   - name: Stages
