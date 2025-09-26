@@ -2854,29 +2854,56 @@ security:
   - Authorization: []
 tags:
   - name: Abilities
+    description: Abilities operations
   - name: Account
+    description: Account operations
   - name: Activities
+    description: Activities operations
   - name: Auth
+    description: Auth operations
   - name: Booking Sessions
+    description: Booking Sessions operations
   - name: Bookings
+    description: Bookings operations
   - name: Catch-ups
+    description: Catch-ups operations
   - name: Classes
+    description: Classes operations
   - name: Coupons
+    description: Coupons operations
   - name: Days
+    description: Days operations
   - name: Links
+    description: Links operations
   - name: Metrics
+    description: Metrics operations
   - name: Payment Intents
+    description: Payment Intents operations
   - name: Payments
+    description: Payments operations
   - name: Ping
+    description: Ping operation
   - name: Prices
+    description: Prices operations
   - name: Providers
+    description: Providers operations
   - name: Referrals
+    description: Referrals operations
   - name: Setup Intents
+    description: Setup Intents operations
   - name: Stages
+    description: Stages operations
   - name: Students
+    description: Students operations
   - name: Subscriptions
+    description: Subscriptions operations
   - name: Terms
+    description: Terms operations
   - name: Users
+    description: Users operations
   - name: Venues
+    description: Venues operations
   - name: Vouchers
+    description: Vouchers operations
   - name: Waitees
+    description: Waitees operations
