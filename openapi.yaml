@@ -6,6 +6,9 @@ info:
   contact:
     name: DoDays Engineering
     email: engineering@dodays.co.uk
+  license:
+    name: Proprietary
+    identifier: Proprietary
 servers:
   - description: Local
     url: "http://api.dodays.test/v1"
@@ -17,8 +20,9 @@ paths:
   /abilities:
     parameters: []
     get:
-      summary: List abilities
       operationId: get-abilities
+      summary: List abilities
+      description: Retrieve a list of abilities.
       responses:
         "200":
           description: Returns a list of abilities.
@@ -39,7 +43,6 @@ paths:
                     "1": Beginner
                     "2": Intermediate
                     "3": Advanced
-      description: Retrieve a list of abilities.
       x-internal: false
       security: []
       tags:
@@ -1319,7 +1322,11 @@ paths:
               schema:
                 type: object
                 properties:
-                  "1":
+                  facebook:
+                    type: string
+                  searchEngine:
+                    type: string
+                  wordOfMouth:
                     type: string
               examples:
                 Example 1:
