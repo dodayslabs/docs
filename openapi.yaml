@@ -1,11 +1,14 @@
 openapi: 3.1.0
 info:
-  title: Reference
+  title: DoDays API
   version: "1.0"
   description: The DoDays API reference.
   contact:
     name: DoDays Engineering
     email: engineering@dodays.co.uk
+  license:
+    name: Proprietary
+    identifier: Proprietary
 servers:
   - description: Local
     url: "http://api.dodays.test/v1"
@@ -17,8 +20,9 @@ paths:
   /abilities:
     parameters: []
     get:
-      summary: List abilities
       operationId: get-abilities
+      summary: List abilities
+      description: Retrieve a list of abilities.
       responses:
         "200":
           description: Returns a list of abilities.
@@ -39,7 +43,6 @@ paths:
                     "1": Beginner
                     "2": Intermediate
                     "3": Advanced
-      description: Retrieve a list of abilities.
       x-internal: false
       security: []
       tags:
@@ -414,15 +417,12 @@ paths:
         in: path
         required: true
     post:
-      summary: Bank booking session
       operationId: post-bank-booking-session
+      summary: Bank booking session
       description: Bank a booking session.
       responses:
         "204":
           description: No content.
-      requestBody:
-        content: {}
-        description: Banks a booking session.
       x-internal: false
       tags:
         - Booking Sessions
@@ -1322,7 +1322,11 @@ paths:
               schema:
                 type: object
                 properties:
-                  "1":
+                  facebook:
+                    type: string
+                  searchEngine:
+                    type: string
+                  wordOfMouth:
                     type: string
               examples:
                 Example 1:
@@ -1764,15 +1768,12 @@ paths:
         in: path
         required: true
     post:
-      summary: Activate subscription
       operationId: post-activate-subscription
+      summary: Activate subscription
+      description: Activate a subscription.
       responses:
         "204":
           description: No content.
-      description: Activate a subscription.
-      requestBody:
-        content: {}
-        description: Activates a subscription.
       tags:
         - Subscriptions
   "/subscriptions/{subscriptionId}/pay":
@@ -1857,13 +1858,9 @@ paths:
         in: path
         required: true
     post:
-      summary: Connect accept
       operationId: post-connect-accept
-      responses:
-        "204":
-          description: No content.
+      summary: Connect accept
       description: Acccept a connect request.
-      security: []
       requestBody:
         content:
           application/json:
@@ -1875,6 +1872,10 @@ paths:
                 marketing:
                   type: boolean
         description: Accepts the providers connect request.
+      responses:
+        "204":
+          description: No content.
+      security: []
       tags:
         - Users
   "/providers/{providerId}/reject":
@@ -1885,16 +1886,13 @@ paths:
         in: path
         required: true
     post:
-      summary: Connect reject
       operationId: post-connect-reject
+      summary: Connect reject
+      description: Reject a connect request.
       responses:
         "204":
           description: No content.
-      description: Reject a connect request.
       security: []
-      requestBody:
-        content: {}
-        description: Rejects the providers connect request.
       tags:
         - Users
   /venues:
