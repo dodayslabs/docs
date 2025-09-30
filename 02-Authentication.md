@@ -11,8 +11,8 @@ This request must contain the email address and password of the account you'd li
 ```curl
 $ curl https://api.dodays.co.uk/v1/auth/token \
     -H "Accept: application/json" \
-    -d email="demo@dodays.co.uk" \
-    -d password="password" \
+    -d email="user@dodays.co.uk" \
+    -d password="your-password-here" \
     -d device_name="Device"
 ```
 

@@ -10,12 +10,12 @@ info:
     name: Proprietary
     identifier: Proprietary
 servers:
-  - description: Local
-    url: "http://api.dodays.test/v1"
-  - url: "https://api.dodays-staging.co.uk/v1"
-    description: Staging
   - description: Production
     url: "https://api.dodays.co.uk/v1"
+  - description: Staging
+    url: "https://api.dodays-staging.co.uk/v1"
+  - description: Local
+    url: "http://api.dodays.test/v1"
 paths:
   /abilities:
     parameters: []
@@ -88,13 +88,13 @@ paths:
             examples:
               Example 1:
                 value:
-                  first_name: Jim
-                  last_name: Brown
-                  email: jim@thebrowns.com
+                  first_name: DoDays
+                  last_name: User
+                  email: user@dodays.co.uk
                   telephone: "01912345678"
-                  street: 1 Brown Street
-                  town: Brown Town
-                  region: Brown
+                  street: 1 User Street
+                  town: User Town
+                  region: User
                   postcode: BR0WN
                   medical: Some medical information
         description: Updates the users account.
@@ -124,9 +124,9 @@ paths:
             examples:
               Example 1:
                 value:
-                  name: Sue Brown
+                  name: DoDays Emergency
                   telephone: "01912345679"
-                  relationship: sue@thebrowns.com
+                  relationship: emergency@dodays.co.uk
         description: Updates the users emergency contact.
       tags:
         - Account
@@ -2743,9 +2743,9 @@ components:
           examples:
             Example 1:
               value:
-                first_name: Jim
-                last_name: Brown
-                email: jim@thebrowns.com
+                first_name: DoDays
+                last_name: User
+                email: user@dodays.co.uk
                 password: password
                 password_confirmation: password
                 telephone: "01912345678"
@@ -2771,7 +2771,7 @@ components:
           examples:
             Example 1:
               value:
-                email: jim@thebrowns.com
+                email: user@dodays.co.uk
                 password: password
                 device_name: Device
       description: Authenticates the User credentials and generates a new Token.
@@ -2788,7 +2788,7 @@ components:
           examples:
             Example 1:
               value:
-                email: jim@thebrowns.com
+                email: user@dodays.co.uk
       description: Sends a new password reset email.
     ResetPassword:
       content:
@@ -2813,7 +2813,7 @@ components:
             Example 1:
               value:
                 token: abc123
-                email: jim@thebrowns.com
+                email: user@dodays.co.uk
                 password: password
                 password_confirmation: password
       description: Resets the User password.
