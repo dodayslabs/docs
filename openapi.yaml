@@ -2332,6 +2332,11 @@ components:
     Provider:
       title: Provider
       type: object
+      required:
+        - id
+        - name
+        - handle
+        - email
       properties:
         id:
           type: integer
