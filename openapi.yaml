@@ -427,6 +427,7 @@ paths:
       tags:
         - Booking Sessions
   /bookings:
+    parameters: []
     post:
       summary: Create a booking
       operationId: post-booking
@@ -533,22 +534,9 @@ paths:
       x-internal: false
       tags:
         - Bookings
-    parameters: []
     get:
-      summary: List bookings
       operationId: get-bookings
-      responses:
-        "200":
-          description: Returns a list of Booking objects.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Booking"
+      summary: List bookings
       description: Retrieve a list of bookings.
       parameters:
         - schema:
@@ -571,6 +559,18 @@ paths:
           in: query
           name: include
           description: Related resources to include
+      responses:
+        "200":
+          description: Returns a list of Booking objects.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Booking"
       tags:
         - Bookings
   /bookings/calculate:
@@ -1289,6 +1289,11 @@ paths:
         name: providerId
         in: path
         required: true
+      - schema:
+          type: string
+        in: query
+        name: include
+        description: Related resources to include
     get:
       summary: Get an provider
       responses:
@@ -2258,6 +2263,8 @@ components:
           type: string
         provider_class_image:
           type: string
+        provider_handle:
+          type: string
         stage:
           type: string
         stage_class_image:
@@ -2681,6 +2688,15 @@ components:
           type: string
         changing_facilities:
           type: string
+        coordinates:
+          type: object
+          properties:
+            latitude:
+              type: number
+            longitude:
+              type: number
+            accuracy:
+              type: number
     Voucher:
       title: Voucher
       type: object
