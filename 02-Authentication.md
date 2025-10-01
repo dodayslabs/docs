@@ -46,7 +46,7 @@ If your request succeeds, the `User` object will be returned.
     "id": 1,
     "first_name": "Demo",
     "last_name": "Customer",
-    "email": "demo@dodays.co.uk",
+    "email": "user@dodays.co.uk",
     "telephone": "01913334444",
     "street": null,
     "town": null,
