@@ -2289,6 +2289,8 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Session"
+        venue:
+          $ref: "#/components/schemas/Venue"
     Discount:
       title: Discount
       type: object
@@ -2336,6 +2338,86 @@ components:
           type: integer
         product_name:
           type: string
+    Payment:
+      title: Payment
+      type: object
+      properties:
+        id:
+          type: integer
+        payment_date:
+          type: string
+          format: date-time
+        amount:
+          type: integer
+        status:
+          type: string
+          enum:
+            - Successful
+            - Failed
+            - Refunded
+        provider_name:
+          type: string
+        booking:
+          $ref: "#/components/schemas/Booking"
+        order:
+          $ref: "#/components/schemas/Order"
+        student:
+          $ref: "#/components/schemas/Student"
+        subscription:
+          $ref: "#/components/schemas/Subscription"
+    Plan:
+      title: Plan
+      type: object
+      properties:
+        id:
+          type: integer
+        net:
+          type: integer
+        gross:
+          type: integer
+    Price:
+      title: Price
+      type: object
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+          enum:
+            - perSession
+            - perTrial
+            - fixedCost
+        payment_method:
+          type: string
+          enum:
+            - card
+            - subscription
+        fixed_cost:
+          type: integer
+        session_limit:
+          type: integer
+        session_selection_type:
+          type: string
+          enum:
+            - fixedStart
+            - flexiStart
+            - cherryPick
+        plan:
+          $ref: "#/components/schemas/Plan"
+    Product:
+      title: Product
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+          enum:
+            - perSession
+            - perTrial
+            - fixedCost
+        cost:
+          type: integer
     Provider:
       title: Provider
       type: object
@@ -2444,89 +2526,14 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Product"
-    Payment:
-      title: Payment
-      type: object
-      properties:
-        id:
-          type: integer
-        payment_date:
-          type: string
-          format: date-time
-        amount:
-          type: integer
-        status:
-          type: string
-          enum:
-            - Successful
-            - Failed
-            - Refunded
-        provider_name:
-          type: string
-        booking:
-          $ref: "#/components/schemas/Booking"
-        order:
-          $ref: "#/components/schemas/Order"
-        student:
-          $ref: "#/components/schemas/Student"
-        subscription:
-          $ref: "#/components/schemas/Subscription"
-    Plan:
-      title: Plan
-      type: object
-      properties:
-        id:
-          type: integer
-        net:
-          type: integer
-        gross:
-          type: integer
-    Price:
-      title: Price
-      type: object
-      properties:
-        id:
-          type: integer
-        type:
-          type: string
-          enum:
-            - perSession
-            - perTrial
-            - fixedCost
-        payment_method:
-          type: string
-          enum:
-            - card
-            - subscription
-        fixed_cost:
-          type: integer
-        session_limit:
-          type: integer
-        session_selection_type:
-          type: string
-          enum:
-            - fixedStart
-            - flexiStart
-            - cherryPick
-        plan:
-          $ref: "#/components/schemas/Plan"
-    Product:
-      title: Product
-      type: object
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-          enum:
-            - perSession
-            - perTrial
-            - fixedCost
-        cost:
-          type: integer
     Session:
       title: Session
       type: object
+      required:
+        - id
+        - date_time
+        - cancelled
+        - spaces_count
       properties:
         id:
           type: integer
@@ -2671,6 +2678,12 @@ components:
     Venue:
       title: Venue
       type: object
+      required:
+        - id
+        - name
+        - address
+        - latitude
+        - longitude
       properties:
         id:
           type: integer
@@ -2680,6 +2693,10 @@ components:
           type: string
         address:
           type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
         information:
           type: string
         parking:
@@ -2688,15 +2705,6 @@ components:
           type: string
         changing_facilities:
           type: string
-        coordinates:
-          type: object
-          properties:
-            latitude:
-              type: number
-            longitude:
-              type: number
-            accuracy:
-              type: number
     Voucher:
       title: Voucher
       type: object
