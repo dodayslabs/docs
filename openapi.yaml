@@ -983,6 +983,103 @@ paths:
       security: []
       tags:
         - Days
+  /discover:
+    parameters: []
+    get:
+      operationId: get-discover
+      summary: Discover providers or activities
+      description: Retrieve a list of providers or activities.
+      tags:
+        - Discover
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - provider
+              - activity
+          in: query
+          name: "filter[type]"
+          description: Type of discovery
+          required: true
+        - schema:
+            type: string
+            enum:
+              - "create"
+              - "explore"
+              - "learn"
+              - "listen"
+              - "move"
+              - "perform"
+              - "play"
+              - "relax"
+              - "taste"
+              - "watch"
+          in: query
+          name: "filter[category]"
+          description: Category function
+        - schema:
+            type: number
+          in: query
+          name: "filter[latitude]"
+          description: Current location longitude
+          required: true
+        - schema:
+            type: number
+          in: query
+          name: "filter[longitude]"
+          description: Current location longitude
+          required: true
+        - schema:
+            type: number
+          in: query
+          name: "filter[radius]"
+          description: Current search radius
+        - schema:
+            type: object
+            properties:
+              north:
+                type: integer
+              south:
+                type: integer
+              east:
+                type: integer
+              west:
+                type: integer
+          in: query
+          name: "filter[bounds]"
+          description: Viewport boundary
+        - schema:
+            type: integer
+          in: query
+          name: page
+          description: Pagination page number
+        - schema:
+            type: integer
+          in: query
+          name: limit
+          description: Pagination page limit
+      responses:
+        "200":
+          description: |-
+            Returns a list of Provider or Class objects based on the filter[type] parameter:
+            - When filter[type]=provider, returns an array of Provider objects
+            - When filter[type]=activity, returns an array of Class objects
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      oneOf:
+                        - $ref: "#/components/schemas/Provider"
+                        - $ref: "#/components/schemas/Class"
+                      discriminator:
+                        propertyName: type
+                        mapping:
+                          provider: "#/components/schemas/Provider"
+                          activity: "#/components/schemas/Class"
   /links:
     parameters: []
     get:
@@ -2269,6 +2366,8 @@ components:
           type: string
         stage_class_image:
           type: string
+        venue_image:
+          type: string
         ability:
           type: string
           enum:
@@ -2697,6 +2796,8 @@ components:
           type: number
         longitude:
           type: number
+        distance:
+          type: number
         information:
           type: string
         parking:
@@ -2908,6 +3009,8 @@ tags:
     description: Coupons operations
   - name: Days
     description: Days operations
+  - name: Discover
+    description: Discover operations
   - name: Links
     description: Links operations
   - name: Metrics
