@@ -1002,21 +1002,19 @@ paths:
           description: Type of discovery
           required: true
         - schema:
-            type: string
-            enum:
-              - "create"
-              - "explore"
-              - "learn"
-              - "listen"
-              - "move"
-              - "perform"
-              - "play"
-              - "relax"
-              - "taste"
-              - "watch"
+            type: array
+            items:
+              $ref: "#/components/schemas/Category"
           in: query
-          name: "filter[category]"
-          description: Category function
+          name: "filter[categories][]"
+          description: Category functions
+        - schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/Type"
+          in: query
+          name: "filter[types][]"
+          description: Type slugs
         - schema:
             type: number
           in: query
@@ -1048,6 +1046,14 @@ paths:
           in: query
           name: "filter[bounds]"
           description: Viewport boundary
+        - schema:
+            type: string
+            enum:
+              - "distance"
+              - "name"
+          in: query
+          name: sort
+          description: Pagination page limit
         - schema:
             type: integer
           in: query
@@ -2322,6 +2328,20 @@ components:
           $ref: "#/components/schemas/Session"
         catchUpSession:
           $ref: "#/components/schemas/BookingSession"
+    Category:
+      title: Category
+      type: string
+      enum:
+        - "create"
+        - "explore"
+        - "learn"
+        - "listen"
+        - "move"
+        - "perform"
+        - "play"
+        - "relax"
+        - "taste"
+        - "watch"
     Class:
       title: Class
       type: object
@@ -2550,6 +2570,8 @@ components:
           type: boolean
         stripe_id:
           type: string
+        featured:
+          type: boolean
         booking_settings:
           type: object
           properties:
@@ -2609,6 +2631,14 @@ components:
           type: string
         photo_consent:
           type: string
+        categories:
+          type: array
+          items:
+            $ref: "#/components/schemas/Category"
+        types:
+          type: array
+          items:
+            $ref: "#/components/schemas/Type"
         terms:
           type: array
           items:
@@ -2742,6 +2772,20 @@ components:
           type: integer
         name:
           type: string
+    Type:
+      title: Type
+      type: string
+      enum:
+        - "accessible-inclusive-places"
+        - "baby-toddler"
+        - "community-events"
+        - "family-days-o"
+        - "holiday-camps"
+        - "indoor-activities"
+        - "kids-activities"
+        - "outdoor-activities"
+        - "pet-friendly-spac"
+        - "seasons-traditions"
     User:
       title: User
       type: object
