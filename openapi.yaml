@@ -1048,6 +1048,11 @@ paths:
           description: Viewport boundary
         - schema:
             type: string
+          in: query
+          name: filter[when]
+          description: When activities run
+        - schema:
+            type: string
             enum:
               - "distance"
               - "name"
