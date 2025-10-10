@@ -10,23 +10,20 @@ This repository contains:
 - **API Documentation** - Human-readable markdown documentation
 - **Code Generation Configuration** - Settings for generating SDKs and documentation from the OpenAPI spec
 
-The OpenAPI specification in this repository is the source of truth for the DoDays API and is used to automatically generate the [TypeScript SDK](../ts-sdk).
+The OpenAPI specification in this repository is the source of truth for the DoDays API and is used to automatically generate the [TypeScript SDK](https://github.com/dodayslabs/ts-sdk).
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js (v16 or higher)
-- pnpm (recommended) or npm
+- Node.js (v24.9.0 or higher)
+- pnpm
 
 ### Installation
 
 ```bash
 # Using pnpm
 pnpm install
-
-# Or using npm
-npm install
 ```
 
 ## Working with the OpenAPI Specification
@@ -43,10 +40,10 @@ npx @openapitools/openapi-generator-cli list
 
 ### TypeScript SDK Generation
 
-The `openapi.yaml` specification automatically generates the TypeScript SDK (`@dodayslabs/ts-sdk`) located at `../ts-sdk`:
+The `openapi.yaml` specification automatically generates the TypeScript SDK (`@dodayslabs/ts-sdk`) located on npm at [package/@dodayslabs/ts-sdk](https://www.npmjs.com/package/@dodayslabs/ts-sdk):
 
 - **Generator**: `typescript-fetch` (OpenAPI Generator CLI)
-- **Output**: `../ts-sdk/src`
+- **Output**: [ts-sdk/src](https://github.com/dodayslabs/ts-sdk/src)
 - **Build Commands** (run from ts-sdk directory):
   ```bash
   pnpm generate  # Generate TypeScript client
@@ -92,7 +89,3 @@ When modifying the OpenAPI specification:
 3. Update relevant documentation files
 4. Test generated code after changes
 5. Follow semantic versioning for breaking changes
-
-## License
-
-See LICENSE file for details.
