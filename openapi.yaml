@@ -2449,7 +2449,7 @@ components:
       enum:
         - "free-wifi"
         - "lockers-available"
-        - "onsite-café"
+        - "onsite-cafe"
         - "onsite-parking"
         - "pet-friendly"
         - "baby-changing"
