@@ -1036,13 +1036,13 @@ paths:
             type: object
             properties:
               north:
-                type: integer
+                type: number
               south:
-                type: integer
+                type: number
               east:
-                type: integer
+                type: number
               west:
-                type: integer
+                type: number
           in: query
           name: "filter[bounds]"
           description: Viewport boundary
@@ -1050,7 +1050,7 @@ paths:
             type: string
           in: query
           name: filter[when]
-          description: When activities run
+          description: When activities are running
         - schema:
             type: string
             enum:
@@ -2419,6 +2419,10 @@ components:
             $ref: "#/components/schemas/Session"
         venue:
           $ref: "#/components/schemas/Venue"
+        type:
+          type: string
+          enum:
+            - provider
     Discount:
       title: Discount
       type: object
@@ -2540,10 +2544,6 @@ components:
           type: integer
         name:
           type: string
-          enum:
-            - perSession
-            - perTrial
-            - fixedCost
         cost:
           type: integer
     Provider:
@@ -2553,7 +2553,6 @@ components:
         - id
         - name
         - handle
-        - email
       properties:
         id:
           type: integer
@@ -2575,10 +2574,12 @@ components:
           type: string
         website:
           type: string
-        absorb_fee:
-          type: boolean
         stripe_id:
           type: string
+        absorb_fee:
+          type: boolean
+        verified:
+          type: boolean
         featured:
           type: boolean
         booking_settings:
@@ -2631,15 +2632,6 @@ components:
           properties:
             session_reminders:
               type: boolean
-        connected_at:
-          type: string
-          format: date-time
-        terms_and_conditions:
-          type: string
-        privacy_policy:
-          type: string
-        photo_consent:
-          type: string
         categories:
           type: array
           items:
@@ -2648,6 +2640,19 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Type"
+        facilities:
+          type: array
+          items:
+            $ref: "#/components/schemas/Type"
+        terms_and_conditions:
+          type: string
+        privacy_policy:
+          type: string
+        photo_consent:
+          type: string
+        connected_at:
+          type: string
+          format: date-time
         terms:
           type: array
           items:
@@ -2664,6 +2669,10 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Product"
+        type:
+          type: string
+          enum:
+            - provider
     Session:
       title: Session
       type: object
