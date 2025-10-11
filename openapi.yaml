@@ -2818,7 +2818,7 @@ components:
         - "indoor-activities"
         - "kids-activities"
         - "outdoor-activities"
-        - "pet-friendly-spac"
+        - "pet-friendly-spaces"
         - "seasons-traditions"
     User:
       title: User
