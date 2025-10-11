@@ -2441,6 +2441,33 @@ components:
           type: string
         percent_off:
           type: integer
+    Facility:
+      title: Facility
+      type: string
+      enum:
+        - "free-wifi"
+        - "lockers-available"
+        - "onsite-café"
+        - "onsite-parking"
+        - "pet-friendly"
+        - "baby-changing"
+        - "quiet-zones"
+        - "soft-play"
+        - "accessible-parking"
+        - "accessible-restrooms"
+        - "changing-places"
+        - "service-dog-friendly"
+        - "lift-access"
+        - "step-free-access"
+        - "wheelchair-access"
+        - "assistive-technology-available"
+        - "hearing-loop-system"
+        - "multilingual-interpretation"
+        - "sign-language-interpretation"
+        - "autism-neurodiversity-inclusive"
+        - "send-trained"
+        - "small-group-options"
+        - "support-worker-carer-welcome"
     Link:
       title: Link
       type: object
@@ -2651,7 +2678,7 @@ components:
         facilities:
           type: array
           items:
-            $ref: "#/components/schemas/Type"
+            $ref: "#/components/schemas/Facility"
         terms_and_conditions:
           type: string
         privacy_policy:
