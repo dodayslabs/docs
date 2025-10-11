@@ -1019,7 +1019,7 @@ paths:
             type: number
           in: query
           name: "filter[latitude]"
-          description: Current location longitude
+          description: Current location latitude
           required: true
         - schema:
             type: number
