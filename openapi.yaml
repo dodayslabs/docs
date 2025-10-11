@@ -427,6 +427,7 @@ paths:
       tags:
         - Booking Sessions
   /bookings:
+    parameters: []
     post:
       summary: Create a booking
       operationId: post-booking
@@ -533,22 +534,9 @@ paths:
       x-internal: false
       tags:
         - Bookings
-    parameters: []
     get:
-      summary: List bookings
       operationId: get-bookings
-      responses:
-        "200":
-          description: Returns a list of Booking objects.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Booking"
+      summary: List bookings
       description: Retrieve a list of bookings.
       parameters:
         - schema:
@@ -571,6 +559,18 @@ paths:
           in: query
           name: include
           description: Related resources to include
+      responses:
+        "200":
+          description: Returns a list of Booking objects.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Booking"
       tags:
         - Bookings
   /bookings/calculate:
@@ -983,6 +983,117 @@ paths:
       security: []
       tags:
         - Days
+  /discover:
+    parameters: []
+    get:
+      operationId: get-discover
+      summary: Discover providers or activities
+      description: Retrieve a list of providers or activities.
+      tags:
+        - Discover
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - provider
+              - activity
+          in: query
+          name: "filter[type]"
+          description: Type of discovery
+          required: true
+        - schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/Category"
+          in: query
+          name: "filter[categories][]"
+          description: Category functions
+        - schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/Type"
+          in: query
+          name: "filter[types][]"
+          description: Type slugs
+        - schema:
+            type: number
+          in: query
+          name: "filter[latitude]"
+          description: Current location latitude
+          required: true
+        - schema:
+            type: number
+          in: query
+          name: "filter[longitude]"
+          description: Current location longitude
+          required: true
+        - schema:
+            type: number
+          in: query
+          name: "filter[radius]"
+          description: Current search radius in metres
+        - schema:
+            type: object
+            properties:
+              north:
+                type: number
+              south:
+                type: number
+              east:
+                type: number
+              west:
+                type: number
+          in: query
+          name: "filter[bounds]"
+          description: Viewport boundary
+          style: deepObject
+          explode: true
+        - schema:
+            type: string
+          in: query
+          name: filter[when]
+          description: When activities are running
+        - schema:
+            type: string
+            enum:
+              - "distance"
+              - "name"
+              - "when"
+          in: query
+          name: sort
+          description: Sort key
+        - schema:
+            type: integer
+          in: query
+          name: page
+          description: Pagination page number
+        - schema:
+            type: integer
+          in: query
+          name: limit
+          description: Pagination page limit
+      responses:
+        "200":
+          description: |-
+            Returns a list of Provider or Class objects based on the filter[type] parameter:
+            - When filter[type]=provider, returns an array of Provider objects
+            - When filter[type]=activity, returns an array of Class objects
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      oneOf:
+                        - $ref: "#/components/schemas/ProviderWithType"
+                        - $ref: "#/components/schemas/ClassWithType"
+                      discriminator:
+                        propertyName: type
+                        mapping:
+                          provider: "#/components/schemas/ProviderWithType"
+                          activity: "#/components/schemas/ClassWithType"
   /links:
     parameters: []
     get:
@@ -1289,6 +1400,11 @@ paths:
         name: providerId
         in: path
         required: true
+      - schema:
+          type: string
+        in: query
+        name: include
+        description: Related resources to include
     get:
       summary: Get an provider
       responses:
@@ -2220,9 +2336,26 @@ components:
           $ref: "#/components/schemas/Session"
         catchUpSession:
           $ref: "#/components/schemas/BookingSession"
+    Category:
+      title: Category
+      type: string
+      enum:
+        - "create"
+        - "explore"
+        - "learn"
+        - "listen"
+        - "move"
+        - "perform"
+        - "play"
+        - "relax"
+        - "taste"
+        - "watch"
     Class:
       title: Class
       type: object
+      required:
+        - id
+        - name
       properties:
         id:
           type: integer
@@ -2258,9 +2391,13 @@ components:
           type: string
         provider_class_image:
           type: string
+        provider_handle:
+          type: string
         stage:
           type: string
         stage_class_image:
+          type: string
+        venue_image:
           type: string
         ability:
           type: string
@@ -2282,6 +2419,20 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Session"
+        venue:
+          $ref: "#/components/schemas/Venue"
+    ClassWithType:
+      title: ClassWithType
+      allOf:
+        - $ref: "#/components/schemas/Class"
+        - type: object
+          required:
+            - type
+          properties:
+            type:
+              type: string
+              enum:
+                - activity
     Discount:
       title: Discount
       type: object
@@ -2292,6 +2443,33 @@ components:
           type: string
         percent_off:
           type: integer
+    Facility:
+      title: Facility
+      type: string
+      enum:
+        - "free-wifi"
+        - "lockers-available"
+        - "onsite-cafe"
+        - "onsite-parking"
+        - "pet-friendly"
+        - "baby-changing"
+        - "quiet-zones"
+        - "soft-play"
+        - "accessible-parking"
+        - "accessible-restrooms"
+        - "changing-places"
+        - "service-dog-friendly"
+        - "lift-access"
+        - "step-free-access"
+        - "wheelchair-access"
+        - "assistive-technology-available"
+        - "hearing-loop-system"
+        - "multilingual-interpretation"
+        - "sign-language-interpretation"
+        - "autism-neurodiversity-inclusive"
+        - "send-trained"
+        - "small-group-options"
+        - "support-worker-carer-welcome"
     Link:
       title: Link
       type: object
@@ -2329,109 +2507,6 @@ components:
           type: integer
         product_name:
           type: string
-    Provider:
-      title: Provider
-      type: object
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-        icon:
-          type: string
-        class_image:
-          type: string
-        strapline:
-          type: string
-        description:
-          type: string
-        handle:
-          type: string
-        email:
-          type: string
-        telephone:
-          type: string
-        website:
-          type: string
-        absorb_fee:
-          type: boolean
-        stripe_id:
-          type: string
-        booking_settings:
-          type: object
-          properties:
-            dob:
-              type: boolean
-            notes:
-              type: boolean
-            medical:
-              type: boolean
-            space:
-              type: boolean
-            referral:
-              type: boolean
-            stage:
-              type: boolean
-            age_range:
-              type: boolean
-            same_day:
-              type: boolean
-            loco_parentis:
-              type: boolean
-            advertise_full:
-              type: boolean
-        catch_up_settings:
-          type: object
-          properties:
-            enabled:
-              type: boolean
-            banking:
-              type: integer
-            booking:
-              type: integer
-            expiration:
-              type: integer
-            limit:
-              type: integer
-        waiting_list_settings:
-          type: object
-          properties:
-            enabled:
-              type: boolean
-            limit_days:
-              type: boolean
-            notes:
-              type: boolean
-        notification_settings:
-          type: object
-          properties:
-            session_reminders:
-              type: boolean
-        connected_at:
-          type: string
-          format: date-time
-        terms_and_conditions:
-          type: string
-        privacy_policy:
-          type: string
-        photo_consent:
-          type: string
-        terms:
-          type: array
-          items:
-            $ref: "#/components/schemas/Term"
-        venues:
-          type: array
-          items:
-            $ref: "#/components/schemas/Venue"
-        stages:
-          type: array
-          items:
-            $ref: "#/components/schemas/Stage"
-        vouchers:
-          type: array
-          items:
-            $ref: "#/components/schemas/Product"
     Payment:
       title: Payment
       type: object
@@ -2506,15 +2581,151 @@ components:
           type: integer
         name:
           type: string
-          enum:
-            - perSession
-            - perTrial
-            - fixedCost
         cost:
           type: integer
+    Provider:
+      title: Provider
+      type: object
+      required:
+        - id
+        - name
+        - handle
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        icon:
+          type: string
+        class_image:
+          type: string
+        strapline:
+          type: string
+        description:
+          type: string
+        handle:
+          type: string
+        email:
+          type: string
+        telephone:
+          type: string
+        website:
+          type: string
+        stripe_id:
+          type: string
+        absorb_fee:
+          type: boolean
+        verified:
+          type: boolean
+        featured:
+          type: boolean
+        booking_settings:
+          type: object
+          properties:
+            dob:
+              type: boolean
+            notes:
+              type: boolean
+            medical:
+              type: boolean
+            space:
+              type: boolean
+            referral:
+              type: boolean
+            stage:
+              type: boolean
+            age_range:
+              type: boolean
+            same_day:
+              type: boolean
+            loco_parentis:
+              type: boolean
+            advertise_full:
+              type: boolean
+        catch_up_settings:
+          type: object
+          properties:
+            enabled:
+              type: boolean
+            banking:
+              type: integer
+            booking:
+              type: integer
+            expiration:
+              type: integer
+            limit:
+              type: integer
+        waiting_list_settings:
+          type: object
+          properties:
+            enabled:
+              type: boolean
+            limit_days:
+              type: boolean
+            notes:
+              type: boolean
+        notification_settings:
+          type: object
+          properties:
+            session_reminders:
+              type: boolean
+        categories:
+          type: array
+          items:
+            $ref: "#/components/schemas/Category"
+        types:
+          type: array
+          items:
+            $ref: "#/components/schemas/Type"
+        facilities:
+          type: array
+          items:
+            $ref: "#/components/schemas/Facility"
+        terms_and_conditions:
+          type: string
+        privacy_policy:
+          type: string
+        photo_consent:
+          type: string
+        connected_at:
+          type: string
+          format: date-time
+        terms:
+          type: array
+          items:
+            $ref: "#/components/schemas/Term"
+        venues:
+          type: array
+          items:
+            $ref: "#/components/schemas/Venue"
+        stages:
+          type: array
+          items:
+            $ref: "#/components/schemas/Stage"
+        vouchers:
+          type: array
+          items:
+            $ref: "#/components/schemas/Product"
+    ProviderWithType:
+      title: ProviderWithType
+      allOf:
+        - $ref: "#/components/schemas/Provider"
+        - type: object
+          required:
+            - type
+          properties:
+            type:
+              type: string
+              enum:
+                - provider
     Session:
       title: Session
       type: object
+      required:
+        - id
+        - date_time
+        - cancelled
+        - spaces_count
       properties:
         id:
           type: integer
@@ -2624,6 +2835,20 @@ components:
           type: integer
         name:
           type: string
+    Type:
+      title: Type
+      type: string
+      enum:
+        - "accessible-inclusive-places"
+        - "baby-toddler"
+        - "community-events"
+        - "family-days-out"
+        - "holiday-camps"
+        - "indoor-activities"
+        - "kids-activities"
+        - "outdoor-activities"
+        - "pet-friendly-spaces"
+        - "seasons-traditions"
     User:
       title: User
       type: object
@@ -2659,6 +2884,12 @@ components:
     Venue:
       title: Venue
       type: object
+      required:
+        - id
+        - name
+        - address
+        - latitude
+        - longitude
       properties:
         id:
           type: integer
@@ -2668,6 +2899,12 @@ components:
           type: string
         address:
           type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+        distance:
+          type: number
         information:
           type: string
         parking:
@@ -2879,6 +3116,8 @@ tags:
     description: Coupons operations
   - name: Days
     description: Days operations
+  - name: Discover
+    description: Discover operations
   - name: Links
     description: Links operations
   - name: Metrics
