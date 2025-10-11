@@ -1085,13 +1085,13 @@ paths:
                     type: array
                     items:
                       oneOf:
-                        - $ref: "#/components/schemas/Provider"
-                        - $ref: "#/components/schemas/Class"
+                        - $ref: "#/components/schemas/ProviderWithType"
+                        - $ref: "#/components/schemas/ClassWithType"
                       discriminator:
                         propertyName: type
                         mapping:
-                          provider: "#/components/schemas/Provider"
-                          activity: "#/components/schemas/Class"
+                          provider: "#/components/schemas/ProviderWithType"
+                          activity: "#/components/schemas/ClassWithType"
   /links:
     parameters: []
     get:
@@ -2419,10 +2419,18 @@ components:
             $ref: "#/components/schemas/Session"
         venue:
           $ref: "#/components/schemas/Venue"
-        type:
-          type: string
-          enum:
-            - provider
+    ClassWithType:
+      title: ClassWithType
+      allOf:
+        - $ref: "#/components/schemas/Class"
+        - type: object
+          required:
+            - type
+          properties:
+            type:
+              type: string
+              enum:
+                - activity
     Discount:
       title: Discount
       type: object
@@ -2669,10 +2677,18 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Product"
-        type:
-          type: string
-          enum:
-            - provider
+    ProviderWithType:
+      title: ProviderWithType
+      allOf:
+        - $ref: "#/components/schemas/Provider"
+        - type: object
+          required:
+            - type
+          properties:
+            type:
+              type: string
+              enum:
+                - provider
     Session:
       title: Session
       type: object
