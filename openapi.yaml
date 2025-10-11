@@ -1031,7 +1031,7 @@ paths:
             type: number
           in: query
           name: "filter[radius]"
-          description: Current search radius
+          description: Current search radius in metres
         - schema:
             type: object
             properties:
@@ -1046,6 +1046,8 @@ paths:
           in: query
           name: "filter[bounds]"
           description: Viewport boundary
+          style: deepObject
+          explode: true
         - schema:
             type: string
           in: query
@@ -1059,7 +1061,7 @@ paths:
               - "when"
           in: query
           name: sort
-          description: Pagination page limit
+          description: Sort key
         - schema:
             type: integer
           in: query
