@@ -814,6 +814,16 @@ paths:
           name: "filter[stage]"
           description: ID of the stage
         - schema:
+            type: number
+          in: query
+          name: "filter[latitude]"
+          description: Current location latitude
+        - schema:
+            type: number
+          in: query
+          name: "filter[longitude]"
+          description: Current location longitude
+        - schema:
             type: string
           in: query
           name: "filter[age][interval]"
@@ -2356,10 +2366,9 @@ components:
       required:
         - id
         - name
+        - venue
       properties:
         id:
-          type: integer
-        activity_id:
           type: integer
         name:
           type: string
@@ -2377,14 +2386,6 @@ components:
           type: string
         sell:
           type: boolean
-        term:
-          type: string
-        teacher:
-          type: string
-        venue_id:
-          type: integer
-        venue_name:
-          type: string
         provider_id:
           type: integer
         provider_name:
@@ -2393,18 +2394,16 @@ components:
           type: string
         provider_handle:
           type: string
-        stage:
+        provider_age_range:
+          type: boolean
+        term_name:
+          type: string
+        teacher_name:
+          type: string
+        stage_name:
           type: string
         stage_class_image:
           type: string
-        venue_image:
-          type: string
-        ability:
-          type: string
-          enum:
-            - Beginner
-            - Intermediate
-            - Advanced
         spaces_count:
           type: integer
         invited_waitees_count:
