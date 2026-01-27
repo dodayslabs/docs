@@ -1566,7 +1566,6 @@ paths:
                 notes:
                   type: string
               required:
-                - provider_id
                 - first_name
                 - last_name
         description: Creates a new family member.
@@ -2266,6 +2265,20 @@ components:
     Booking:
       title: Booking
       type: object
+      required:
+        - id
+        - ref
+        - student_id
+        - student_name
+        - provider_id
+        - provider_name
+        - class_id
+        - class_name
+        - teacher_name
+        - venue_name
+        - net
+        - gross
+        - balance
       properties:
         id:
           type: integer
@@ -2302,6 +2315,8 @@ components:
           enum:
             - card
             - subscription
+            - bank
+            - bacs
         payment_method_label:
           type: string
         price_type:
@@ -2328,6 +2343,14 @@ components:
     BookingSession:
       title: BookingSession
       type: object
+      required:
+        - id
+        - date_time
+        - attended
+        - absent
+        - banked
+        - cancelled
+        - session
       properties:
         id:
           type: integer
@@ -2366,6 +2389,14 @@ components:
       required:
         - id
         - name
+        - session_cost
+        - sell
+        - provider_id
+        - provider_name
+        - provider_handle
+        - term_name
+        - teacher_name
+        - spaces_count
         - venue
       properties:
         id:
@@ -2435,6 +2466,8 @@ components:
     Discount:
       title: Discount
       type: object
+      required:
+        - id
       properties:
         id:
           type: integer
@@ -2472,6 +2505,12 @@ components:
     Link:
       title: Link
       type: object
+      required:
+        - provider_id
+        - provider_name
+        - user_id
+        - user_name
+        - balance
       properties:
         provider_id:
           type: integer
@@ -2501,6 +2540,9 @@ components:
     Order:
       title: Order
       type: object
+      required:
+        - id
+        - product_name
       properties:
         id:
           type: integer
@@ -2509,6 +2551,12 @@ components:
     Payment:
       title: Payment
       type: object
+      required:
+        - id
+        - payment_date
+        - amount
+        - status
+        - provider_name
       properties:
         id:
           type: integer
@@ -2536,6 +2584,10 @@ components:
     Plan:
       title: Plan
       type: object
+      required:
+        - id
+        - net
+        - gross
       properties:
         id:
           type: integer
@@ -2546,6 +2598,10 @@ components:
     Price:
       title: Price
       type: object
+      required:
+        - id
+        - type
+        - payment_method
       properties:
         id:
           type: integer
@@ -2560,6 +2616,8 @@ components:
           enum:
             - card
             - subscription
+            - bank
+            - bacs
         fixed_cost:
           type: integer
         session_limit:
@@ -2575,6 +2633,10 @@ components:
     Product:
       title: Product
       type: object
+      required:
+        - id
+        - name
+        - cost
       properties:
         id:
           type: integer
@@ -2589,6 +2651,8 @@ components:
         - id
         - name
         - handle
+        - email
+        - absorb_fee
       properties:
         id:
           type: integer
@@ -2745,6 +2809,9 @@ components:
     Stage:
       title: Stage
       type: object
+      required:
+        - id
+        - name
       properties:
         id:
           type: integer
@@ -2753,7 +2820,10 @@ components:
     Student:
       title: Student
       type: object
-      x-internal: false
+      required:
+        - id
+        - first_name
+        - last_name
       properties:
         id:
           type: integer
@@ -2771,6 +2841,9 @@ components:
     StudentGoal:
       title: StudentGoal
       type: object
+      required:
+        - id
+        - name
       properties:
         id:
           type: integer
@@ -2782,11 +2855,20 @@ components:
     StudentStage:
       title: StudentStage
       type: object
+      required:
+        - id
+        - name
+        - provider_id
+        - provider_name
+        - active
+        - goals
       properties:
         id:
           type: integer
         name:
           type: string
+        provider_id:
+          type: integer
         provider_name:
           type: string
         active:
@@ -2801,6 +2883,18 @@ components:
     Subscription:
       title: Subscription
       type: object
+      required:
+        - id
+        - provider_id
+        - plan_name
+        - student_name
+        - payment_method
+        - goal
+        - amount
+        - stripe_active
+        - starts_at
+        - trial_ends_at
+        - outstanding_payments_count
       properties:
         id:
           type: integer
@@ -2829,6 +2923,9 @@ components:
     Term:
       title: Term
       type: object
+      required:
+        - id
+        - name
       properties:
         id:
           type: integer
@@ -2851,7 +2948,11 @@ components:
     User:
       title: User
       type: object
-      x-internal: false
+      required:
+        - id
+        - first_name
+        - last_name
+        - email
       properties:
         id:
           type: integer
@@ -2915,6 +3016,10 @@ components:
     Voucher:
       title: Voucher
       type: object
+      required:
+        - id
+        - value
+        - remaining_value
       properties:
         id:
           type: integer
@@ -2925,6 +3030,8 @@ components:
     Waitee:
       title: Waitee
       type: object
+      required:
+        - id
       properties:
         id:
           type: integer
