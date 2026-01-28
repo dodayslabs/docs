@@ -2278,6 +2278,7 @@ components:
         - net
         - gross
         - balance
+        - sessions
       properties:
         id:
           type: integer
