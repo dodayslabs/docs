@@ -1107,8 +1107,30 @@ paths:
   /links:
     parameters: []
     get:
-      summary: Get a link
       operationId: get-link
+      summary: Get a link
+      description: Retrieve a provider link.
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: "filter[provider]"
+          description: ID of the provider
+        - schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - visible_balance
+                - processing_amount
+          in: query
+          name: "fields[links][]"
+          description: Optional fields to include in the response
+          style: form
+          explode: true
+      security: []
+      tags:
+        - Links
       responses:
         "200":
           description: Returns the users link for the given provider.
@@ -1118,20 +1140,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Link"
-      description: Retrieve a provider link.
-      x-internal: false
-      parameters:
-        - schema:
-            type: integer
-          in: query
-          name: "filter[provider]"
-          description: ID of the provider
-      security: []
-      tags:
-        - Links
+                    $ref: "#/components/schemas/Link"
   "/metics/{domain}/{metric}":
     parameters:
       - schema:
@@ -1232,7 +1241,9 @@ paths:
                       items:
                         type: string
                     setup_future_usage:
-                      type: string
+                      type:
+                        - string
+                        - "null"
                     capture_method:
                       type: string
               required:
@@ -2278,7 +2289,6 @@ components:
         - net
         - gross
         - balance
-        - sessions
       properties:
         id:
           type: integer
@@ -2510,6 +2520,7 @@ components:
         - provider_name
         - user_id
         - user_name
+        - stripe_id
         - balance
       properties:
         provider_id:
@@ -2523,6 +2534,10 @@ components:
         stripe_id:
           type: string
         balance:
+          type: integer
+        visible_balance:
+          type: integer
+        processing_amount:
           type: integer
         card_last_four:
           type: string
