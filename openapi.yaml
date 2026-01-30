@@ -2596,6 +2596,20 @@ components:
           $ref: "#/components/schemas/Student"
         subscription:
           $ref: "#/components/schemas/Subscription"
+    PhotoConsentContent:
+      type: object
+      required:
+        - content
+      properties:
+        content:
+          type: string
+    PhotoConsentLink:
+      type: object
+      required:
+        - link
+      properties:
+        link:
+          type: string
     Plan:
       title: Plan
       type: object
@@ -2764,7 +2778,9 @@ components:
         privacy_policy:
           type: string
         photo_consent:
-          type: string
+          oneOf:
+            - $ref: "#/components/schemas/PhotoConsentContent"
+            - $ref: "#/components/schemas/PhotoConsentLink"
         connected_at:
           type: string
           format: date-time
