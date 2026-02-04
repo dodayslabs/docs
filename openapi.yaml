@@ -716,6 +716,8 @@ paths:
               properties:
                 payment_intent:
                   type: string
+                credit_amount:
+                  type: number
         description: Pays for a booking.
   /available-catch-up-sessions:
     parameters: []
