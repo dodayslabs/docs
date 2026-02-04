@@ -743,6 +743,11 @@ paths:
           in: query
           name: "filter[banked_session]"
           description: ID of the banked booking session
+        - schema:
+            type: string
+          in: query
+          name: include
+          description: Related resources to include
       tags:
         - Catch-ups
   /catch-ups:
