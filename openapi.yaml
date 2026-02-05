@@ -2844,6 +2844,8 @@ components:
           type: boolean
         spaces_count:
           type: integer
+        class:
+          $ref: "#/components/schemas/Class"
     Stage:
       title: Stage
       type: object
