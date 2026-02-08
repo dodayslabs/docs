@@ -716,6 +716,8 @@ paths:
               properties:
                 payment_intent:
                   type: string
+                credit_amount:
+                  type: integer
         description: Pays for a booking.
   /available-catch-up-sessions:
     parameters: []
@@ -741,6 +743,11 @@ paths:
           in: query
           name: "filter[banked_session]"
           description: ID of the banked booking session
+        - schema:
+            type: string
+          in: query
+          name: include
+          description: Related resources to include
       tags:
         - Catch-ups
   /catch-ups:
@@ -1107,8 +1114,30 @@ paths:
   /links:
     parameters: []
     get:
-      summary: Get a link
       operationId: get-link
+      summary: Get a link
+      description: Retrieve a provider link.
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: "filter[provider]"
+          description: ID of the provider
+        - schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - visible_balance
+                - processing_amount
+          in: query
+          name: "fields[links][]"
+          description: Optional fields to include in the response
+          style: form
+          explode: true
+      security: []
+      tags:
+        - Links
       responses:
         "200":
           description: Returns the users link for the given provider.
@@ -1118,20 +1147,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Link"
-      description: Retrieve a provider link.
-      x-internal: false
-      parameters:
-        - schema:
-            type: integer
-          in: query
-          name: "filter[provider]"
-          description: ID of the provider
-      security: []
-      tags:
-        - Links
+                    $ref: "#/components/schemas/Link"
   "/metics/{domain}/{metric}":
     parameters:
       - schema:
@@ -1232,7 +1248,9 @@ paths:
                       items:
                         type: string
                     setup_future_usage:
-                      type: string
+                      type:
+                        - string
+                        - "null"
                     capture_method:
                       type: string
               required:
@@ -1566,7 +1584,6 @@ paths:
                 notes:
                   type: string
               required:
-                - provider_id
                 - first_name
                 - last_name
         description: Creates a new family member.
@@ -1668,7 +1685,6 @@ paths:
               required:
                 - first_name
                 - last_name
-                - dob
         description: Updates the family member.
       x-internal: false
       tags:
@@ -1968,12 +1984,12 @@ paths:
               type: object
               properties:
                 terms:
-                  type: array
-                  items:
+                  type: object
+                  additionalProperties:
                     type: boolean
                 marketing:
-                  type: array
-                  items:
+                  type: object
+                  additionalProperties:
                     type: boolean
         description: Activates the users account.
   "/providers/{providerId}/accept":
@@ -2266,6 +2282,20 @@ components:
     Booking:
       title: Booking
       type: object
+      required:
+        - id
+        - ref
+        - student_id
+        - student_name
+        - provider_id
+        - provider_name
+        - class_id
+        - class_name
+        - teacher_name
+        - venue_name
+        - net
+        - gross
+        - balance
       properties:
         id:
           type: integer
@@ -2302,6 +2332,8 @@ components:
           enum:
             - card
             - subscription
+            - bank
+            - bacs
         payment_method_label:
           type: string
         price_type:
@@ -2328,6 +2360,14 @@ components:
     BookingSession:
       title: BookingSession
       type: object
+      required:
+        - id
+        - date_time
+        - attended
+        - absent
+        - banked
+        - cancelled
+        - session
       properties:
         id:
           type: integer
@@ -2366,6 +2406,14 @@ components:
       required:
         - id
         - name
+        - session_cost
+        - sell
+        - provider_id
+        - provider_name
+        - provider_handle
+        - term_name
+        - teacher_name
+        - spaces_count
         - venue
       properties:
         id:
@@ -2435,6 +2483,8 @@ components:
     Discount:
       title: Discount
       type: object
+      required:
+        - id
       properties:
         id:
           type: integer
@@ -2472,6 +2522,13 @@ components:
     Link:
       title: Link
       type: object
+      required:
+        - provider_id
+        - provider_name
+        - user_id
+        - user_name
+        - stripe_id
+        - balance
       properties:
         provider_id:
           type: integer
@@ -2484,6 +2541,10 @@ components:
         stripe_id:
           type: string
         balance:
+          type: integer
+        visible_balance:
+          type: integer
+        processing_amount:
           type: integer
         card_last_four:
           type: string
@@ -2501,6 +2562,9 @@ components:
     Order:
       title: Order
       type: object
+      required:
+        - id
+        - product_name
       properties:
         id:
           type: integer
@@ -2509,6 +2573,12 @@ components:
     Payment:
       title: Payment
       type: object
+      required:
+        - id
+        - payment_date
+        - amount
+        - status
+        - provider_name
       properties:
         id:
           type: integer
@@ -2533,9 +2603,27 @@ components:
           $ref: "#/components/schemas/Student"
         subscription:
           $ref: "#/components/schemas/Subscription"
+    PhotoConsentContent:
+      type: object
+      required:
+        - content
+      properties:
+        content:
+          type: string
+    PhotoConsentLink:
+      type: object
+      required:
+        - link
+      properties:
+        link:
+          type: string
     Plan:
       title: Plan
       type: object
+      required:
+        - id
+        - net
+        - gross
       properties:
         id:
           type: integer
@@ -2546,6 +2634,10 @@ components:
     Price:
       title: Price
       type: object
+      required:
+        - id
+        - type
+        - payment_method
       properties:
         id:
           type: integer
@@ -2560,6 +2652,8 @@ components:
           enum:
             - card
             - subscription
+            - bank
+            - bacs
         fixed_cost:
           type: integer
         session_limit:
@@ -2575,6 +2669,10 @@ components:
     Product:
       title: Product
       type: object
+      required:
+        - id
+        - name
+        - cost
       properties:
         id:
           type: integer
@@ -2589,6 +2687,8 @@ components:
         - id
         - name
         - handle
+        - email
+        - absorb_fee
       properties:
         id:
           type: integer
@@ -2685,7 +2785,9 @@ components:
         privacy_policy:
           type: string
         photo_consent:
-          type: string
+          oneOf:
+            - $ref: "#/components/schemas/PhotoConsentContent"
+            - $ref: "#/components/schemas/PhotoConsentLink"
         connected_at:
           type: string
           format: date-time
@@ -2742,9 +2844,14 @@ components:
           type: boolean
         spaces_count:
           type: integer
+        class:
+          $ref: "#/components/schemas/Class"
     Stage:
       title: Stage
       type: object
+      required:
+        - id
+        - name
       properties:
         id:
           type: integer
@@ -2753,7 +2860,10 @@ components:
     Student:
       title: Student
       type: object
-      x-internal: false
+      required:
+        - id
+        - first_name
+        - last_name
       properties:
         id:
           type: integer
@@ -2771,6 +2881,9 @@ components:
     StudentGoal:
       title: StudentGoal
       type: object
+      required:
+        - id
+        - name
       properties:
         id:
           type: integer
@@ -2782,11 +2895,20 @@ components:
     StudentStage:
       title: StudentStage
       type: object
+      required:
+        - id
+        - name
+        - provider_id
+        - provider_name
+        - active
+        - goals
       properties:
         id:
           type: integer
         name:
           type: string
+        provider_id:
+          type: integer
         provider_name:
           type: string
         active:
@@ -2801,6 +2923,18 @@ components:
     Subscription:
       title: Subscription
       type: object
+      required:
+        - id
+        - provider_id
+        - plan_name
+        - student_name
+        - payment_method
+        - goal
+        - amount
+        - stripe_active
+        - starts_at
+        - trial_ends_at
+        - outstanding_payments_count
       properties:
         id:
           type: integer
@@ -2829,6 +2963,9 @@ components:
     Term:
       title: Term
       type: object
+      required:
+        - id
+        - name
       properties:
         id:
           type: integer
@@ -2851,7 +2988,11 @@ components:
     User:
       title: User
       type: object
-      x-internal: false
+      required:
+        - id
+        - first_name
+        - last_name
+        - email
       properties:
         id:
           type: integer
@@ -2915,6 +3056,10 @@ components:
     Voucher:
       title: Voucher
       type: object
+      required:
+        - id
+        - value
+        - remaining_value
       properties:
         id:
           type: integer
@@ -2925,6 +3070,8 @@ components:
     Waitee:
       title: Waitee
       type: object
+      required:
+        - id
       properties:
         id:
           type: integer
