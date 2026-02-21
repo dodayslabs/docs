@@ -2100,9 +2100,7 @@ paths:
                 type: object
                 properties:
                   data:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Voucher"
+                    $ref: "#/components/schemas/Voucher"
       description: Create a new voucher.
       requestBody:
         content:
