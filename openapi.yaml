@@ -511,22 +511,8 @@ paths:
                 emergency:
                   type: object
                   properties:
-                    type:
+                    name:
                       type: string
-                      enum:
-                        - friend
-                        - wordOfMouth
-                        - searchEngine
-                        - facebook
-                        - twitter
-                        - instagram
-                        - clubHub
-                        - whatsOn4Kids
-                        - netmums
-                        - leaflet
-                        - tvRadio
-                        - event
-                        - other
                     telephone:
                       type: string
         description: Creates a new booking.
