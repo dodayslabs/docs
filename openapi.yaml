@@ -2625,6 +2625,14 @@ components:
       properties:
         id:
           type: integer
+        name:
+          type:
+            - string
+            - "null"
+        description:
+          type:
+            - string
+            - "null"
         type:
           type: string
           enum:
