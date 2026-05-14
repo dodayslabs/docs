@@ -2691,6 +2691,7 @@ components:
         - handle
         - email
         - absorb_fee
+        - progress_mode
       properties:
         id:
           type: integer
@@ -2720,6 +2721,8 @@ components:
           type: boolean
         featured:
           type: boolean
+        progress_mode:
+          $ref: "#/components/schemas/ProgressMode"
         booking_settings:
           type: object
           properties:
@@ -2886,14 +2889,31 @@ components:
       required:
         - id
         - name
+        - status
       properties:
         id:
           type: integer
         name:
           type: string
+        status:
+          $ref: "#/components/schemas/StudentGoalStatus"
         achieved_at:
           type: string
           format: date-time
+    StudentGoalStatus:
+      title: StudentGoalStatus
+      type: string
+      enum:
+        - "notStarted"
+        - "introduced"
+        - "developing"
+        - "mastered"
+    ProgressMode:
+      title: ProgressMode
+      type: string
+      enum:
+        - "basic"
+        - "idm"
     StudentStage:
       title: StudentStage
       type: object
