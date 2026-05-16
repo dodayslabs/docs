@@ -1798,52 +1798,7 @@ paths:
       x-internal: false
       tags:
         - Students
-  "/students/{studentId}/goals":
-    parameters:
-      - schema:
-          type: string
-        name: studentId
-        in: path
-        required: true
-    post:
-      operationId: post-student-goal
-      summary: Create student goal
-      description: Create a new student goal.
-      requestBody:
-        description: Creates a new student goal.
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                goal_id:
-                  type: integer
-              required:
-                - goal_id
-      responses:
-        "200":
-          description: Returns a StudentGoal object.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  goal_id:
-                    type: integer
-                  student_id:
-                    type: integer
-                  booking_id:
-                    type: integer
-                  created_at:
-                    type: string
-                  updated_at:
-                    type: string
-      x-internal: false
-      tags:
-        - Students
-  "/students/{studentId}/goals/{goalId}":
+  "/students/{studentId}/goals/{goalId}/status":
     parameters:
       - schema:
           type: string
@@ -1855,13 +1810,35 @@ paths:
         name: goalId
         in: path
         required: true
-    delete:
-      operationId: delete-student-goal
-      summary: Delete student goal
-      description: Delete a student goal.
+    post:
+      operationId: post-student-goal-status
+      summary: Record student goal status
+      description: Record a new status for a student goal. Upserts the student goal row and appends a transition.
+      requestBody:
+        description: The status to record.
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - status
+              properties:
+                status:
+                  $ref: "#/components/schemas/StudentGoalStatus"
+                booking_id:
+                  type: integer
       responses:
-        "204":
-          description: Student Goal deleted.
+        "200":
+          description: Returns the updated StudentGoal object.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/StudentGoal"
+        "403":
+          description: The caller is not permitted to make that transition (e.g. a teacher reverting a mastered goal).
       x-internal: false
       tags:
         - Students
@@ -2691,6 +2668,7 @@ components:
         - handle
         - email
         - absorb_fee
+        - progress_mode
       properties:
         id:
           type: integer
@@ -2720,6 +2698,8 @@ components:
           type: boolean
         featured:
           type: boolean
+        progress_mode:
+          $ref: "#/components/schemas/ProgressMode"
         booking_settings:
           type: object
           properties:
@@ -2886,14 +2866,31 @@ components:
       required:
         - id
         - name
+        - status
       properties:
         id:
           type: integer
         name:
           type: string
+        status:
+          $ref: "#/components/schemas/StudentGoalStatus"
         achieved_at:
           type: string
           format: date-time
+    StudentGoalStatus:
+      title: StudentGoalStatus
+      type: string
+      enum:
+        - "notStarted"
+        - "introduced"
+        - "developing"
+        - "mastered"
+    ProgressMode:
+      title: ProgressMode
+      type: string
+      enum:
+        - "basic"
+        - "idm"
     StudentStage:
       title: StudentStage
       type: object
