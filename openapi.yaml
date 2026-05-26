@@ -2877,6 +2877,19 @@ components:
         achieved_at:
           type: string
           format: date-time
+        description:
+          type:
+            - string
+            - "null"
+        image:
+          type:
+            - string
+            - "null"
+          format: uri
+        video:
+          type:
+            - string
+            - "null"
     StudentGoalStatus:
       title: StudentGoalStatus
       type: string
@@ -2915,6 +2928,20 @@ components:
         awarded_on:
           type: string
           format: date
+        badge_image:
+          type:
+            - string
+            - "null"
+          format: uri
+        description:
+          type:
+            - string
+            - "null"
+        certificate:
+          type:
+            - string
+            - "null"
+          format: uri
         goals:
           type: array
           items:
