@@ -2878,13 +2878,18 @@ components:
           type: string
           format: date-time
         description:
-          type: string
-        image_url:
-          type: string
+          type:
+            - string
+            - "null"
+        image:
+          type:
+            - string
+            - "null"
           format: uri
-        video_url:
-          type: string
-          format: uri
+        video:
+          type:
+            - string
+            - "null"
     StudentGoalStatus:
       title: StudentGoalStatus
       type: string
@@ -2923,13 +2928,19 @@ components:
         awarded_on:
           type: string
           format: date
-        badge_image_url:
-          type: string
+        badge_image:
+          type:
+            - string
+            - "null"
           format: uri
         description:
-          type: string
-        certificate_url:
-          type: string
+          type:
+            - string
+            - "null"
+        certificate:
+          type:
+            - string
+            - "null"
           format: uri
         goals:
           type: array
