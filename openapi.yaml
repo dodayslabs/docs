@@ -2626,6 +2626,8 @@ components:
           type: string
         amount:
           type: integer
+        provider_name:
+          type: string
         created_at:
           type: string
           format: date-time
