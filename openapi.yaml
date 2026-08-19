@@ -2322,6 +2322,7 @@ components:
         - net
         - gross
         - balance
+        - created_at
       properties:
         id:
           type: integer
@@ -2434,10 +2435,10 @@ components:
       type: object
       required:
         - id
-        - created_at
         - description
         - amount
         - provider_name
+        - created_at
       properties:
         id:
           type: integer
@@ -2451,7 +2452,9 @@ components:
           type: string
           format: date-time
         student:
-          $ref: "#/components/schemas/Student"
+          oneOf:
+            - $ref: "#/components/schemas/Student"
+            - type: "null"
     Class:
       title: Class
       type: object
@@ -2619,6 +2622,9 @@ components:
       required:
         - id
         - product_name
+        - amount
+        - provider_name
+        - created_at
       properties:
         id:
           type: integer
@@ -2632,7 +2638,9 @@ components:
           type: string
           format: date-time
         student:
-          $ref: "#/components/schemas/Student"
+          oneOf:
+            - $ref: "#/components/schemas/Student"
+            - type: "null"
     Payment:
       title: Payment
       type: object
