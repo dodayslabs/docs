@@ -2327,9 +2327,6 @@ components:
           type: integer
         ref:
           type: string
-        created_at:
-          type: string
-          format: date-time
         student_id:
           type: integer
         student_name:
@@ -2380,6 +2377,9 @@ components:
           type: integer
         successful_payments_count:
           type: integer
+        created_at:
+          type: string
+          format: date-time
         sessions:
           type: array
           items:
@@ -2441,15 +2441,15 @@ components:
       properties:
         id:
           type: integer
-        created_at:
-          type: string
-          format: date-time
         description:
           type: string
         amount:
           type: integer
         provider_name:
           type: string
+        created_at:
+          type: string
+          format: date-time
         student:
           $ref: "#/components/schemas/Student"
     Class:
