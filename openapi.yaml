@@ -766,6 +766,35 @@ paths:
       x-internal: false
       tags:
         - Catch-ups
+  /charges:
+    parameters: []
+    get:
+      summary: List charges
+      operationId: get-charges
+      description: >-
+        Retrieve a list of charges raised against the authenticated user's
+        account, such as failed payment processing fees. Charges are debits:
+        they reduce the account balance and do not appear in payments.
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: "filter[provider]"
+          description: ID of the provider
+      responses:
+        "200":
+          description: Returns a list of Charge objects.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Charge"
+      tags:
+        - Charges
   /classes:
     parameters: []
     get:
@@ -1196,6 +1225,34 @@ paths:
           description: Date range
       tags:
         - Metrics
+  /orders:
+    parameters: []
+    get:
+      summary: List orders
+      operationId: get-orders
+      description: >-
+        Retrieve a list of product orders placed by the authenticated user.
+        Orders are debits: they reduce the account balance.
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: "filter[provider]"
+          description: ID of the provider
+      responses:
+        "200":
+          description: Returns a list of Order objects.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Order"
+      tags:
+        - Orders
   /payment-intents:
     post:
       summary: Create a payment intent
@@ -2265,6 +2322,7 @@ components:
         - net
         - gross
         - balance
+        - created_at
       properties:
         id:
           type: integer
@@ -2320,6 +2378,9 @@ components:
           type: integer
         successful_payments_count:
           type: integer
+        created_at:
+          type: string
+          format: date-time
         sessions:
           type: array
           items:
@@ -2369,6 +2430,31 @@ components:
         - "relax"
         - "taste"
         - "watch"
+    Charge:
+      title: Charge
+      type: object
+      required:
+        - id
+        - description
+        - amount
+        - provider_name
+        - created_at
+      properties:
+        id:
+          type: integer
+        description:
+          type: string
+        amount:
+          type: integer
+        provider_name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        student:
+          oneOf:
+            - $ref: "#/components/schemas/Student"
+            - type: "null"
     Class:
       title: Class
       type: object
@@ -2536,11 +2622,25 @@ components:
       required:
         - id
         - product_name
+        - amount
+        - provider_name
+        - created_at
       properties:
         id:
           type: integer
         product_name:
           type: string
+        amount:
+          type: integer
+        provider_name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        student:
+          oneOf:
+            - $ref: "#/components/schemas/Student"
+            - type: "null"
     Payment:
       title: Payment
       type: object
@@ -3355,6 +3455,8 @@ tags:
     description: Bookings operations
   - name: Catch-ups
     description: Catch-ups operations
+  - name: Charges
+    description: Charges operations
   - name: Classes
     description: Classes operations
   - name: Coupons
@@ -3367,6 +3469,8 @@ tags:
     description: Links operations
   - name: Metrics
     description: Metrics operations
+  - name: Orders
+    description: Orders operations
   - name: Payment Intents
     description: Payment Intents operations
   - name: Payments
