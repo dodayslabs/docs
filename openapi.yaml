@@ -1567,7 +1567,6 @@ paths:
                         type: string
               required:
                 - provider_id
-                - customer
         description: Creates a new setup intent on Stripe.
       description: Create a new setup intent.
       x-internal: false
