@@ -15,24 +15,12 @@ This is the documentation repository for the DoDays API, containing OpenAPI spec
 
 ## Development Commands
 
-### OpenAPI Generator
+These are the steps the `Check` job runs on every pull request.
 
 ```bash
-# Generate code/documentation from OpenAPI spec
-npx @openapitools/openapi-generator-cli generate
-
-# Check available generators
-npx @openapitools/openapi-generator-cli list
-```
-
-### Package Management
-
-```bash
-# Install dependencies
 pnpm install
-
-# Or with npm
-npm install
+pnpm validate  # validate openapi.yaml
+pnpm build     # generate the typescript-fetch client into dist/
 ```
 
 ## Important Files
