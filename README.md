@@ -16,8 +16,9 @@ The OpenAPI specification in this repository is the source of truth for the DoDa
 
 ### Prerequisites
 
-- Node.js (v24.9.0 or higher)
-- pnpm
+- Node.js (v24.16.0, see `.nvmrc`)
+- pnpm 11.6.0 (see `packageManager` in `package.json`)
+- Java 11 or later, which OpenAPI Generator CLI runs on (CI uses 21)
 
 ### Installation
 
@@ -28,14 +29,13 @@ pnpm install
 
 ## Working with the OpenAPI Specification
 
-### Generate Code/Documentation
+### Validate and Build
+
+After installing, these are the steps the `Check` job runs on every pull request.
 
 ```bash
-# Generate code from the OpenAPI spec
-npx @openapitools/openapi-generator-cli generate
-
-# List available generators
-npx @openapitools/openapi-generator-cli list
+pnpm validate  # validate openapi.yaml
+pnpm build     # generate the typescript-fetch client into dist/
 ```
 
 ### TypeScript SDK Generation
@@ -43,7 +43,7 @@ npx @openapitools/openapi-generator-cli list
 The `openapi.yaml` specification automatically generates the TypeScript SDK (`@dodayslabs/ts-sdk`) located on npm at [package/@dodayslabs/ts-sdk](https://www.npmjs.com/package/@dodayslabs/ts-sdk):
 
 - **Generator**: `typescript-fetch` (OpenAPI Generator CLI)
-- **Output**: [ts-sdk/src](https://github.com/dodayslabs/ts-sdk/src)
+- **Output**: [ts-sdk/src](https://github.com/dodayslabs/ts-sdk/tree/main/src)
 - **Build Commands** (run from ts-sdk directory):
   ```bash
   pnpm generate  # Generate TypeScript client
@@ -62,8 +62,13 @@ The `openapi.yaml` specification automatically generates the TypeScript SDK (`@d
 
 ```
 .
+├── .github/workflows/ci.yml  # The Check job run on every pull request
+├── .nvmrc                    # Node.js version
 ├── openapi.yaml              # OpenAPI 3.1 specification
 ├── openapitools.json         # OpenAPI Generator CLI configuration
+├── package.json              # validate and build scripts, pnpm version
+├── pnpm-workspace.yaml       # pnpm settings
+├── redocly.yaml              # Redocly lint rules
 ├── 01-Introduction.md        # API introduction and overview
 ├── 02-Authentication.md      # Authentication flow documentation
 └── README.md                 # This file
