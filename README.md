@@ -30,12 +30,11 @@ pnpm install
 
 ### Generate Code/Documentation
 
-```bash
-# Generate code from the OpenAPI spec
-npx @openapitools/openapi-generator-cli generate
+These are the steps the `Check` job runs on every pull request.
 
-# List available generators
-npx @openapitools/openapi-generator-cli list
+```bash
+pnpm validate  # validate openapi.yaml
+pnpm build     # generate the typescript-fetch client into dist/
 ```
 
 ### TypeScript SDK Generation
