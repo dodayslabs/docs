@@ -17,8 +17,8 @@ The OpenAPI specification in this repository is the source of truth for the DoDa
 ### Prerequisites
 
 - Node.js (v24.16.0, see `.nvmrc`)
-- pnpm
-- Java 21 or later (OpenAPI Generator CLI runs on the JVM)
+- pnpm 11.6.0 (see `packageManager` in `package.json`)
+- Java 11 or later, which OpenAPI Generator CLI runs on (CI uses 21)
 
 ### Installation
 
@@ -62,8 +62,13 @@ The `openapi.yaml` specification automatically generates the TypeScript SDK (`@d
 
 ```
 .
+├── .github/workflows/ci.yml  # The Check job run on every pull request
+├── .nvmrc                    # Node.js version
 ├── openapi.yaml              # OpenAPI 3.1 specification
 ├── openapitools.json         # OpenAPI Generator CLI configuration
+├── package.json              # validate and build scripts, pnpm version
+├── pnpm-workspace.yaml       # pnpm settings
+├── redocly.yaml              # Redocly lint rules
 ├── 01-Introduction.md        # API introduction and overview
 ├── 02-Authentication.md      # Authentication flow documentation
 └── README.md                 # This file
