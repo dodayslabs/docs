@@ -16,8 +16,9 @@ The OpenAPI specification in this repository is the source of truth for the DoDa
 
 ### Prerequisites
 
-- Node.js (v24.9.0 or higher)
+- Node.js (v24.16.0, see `.nvmrc`)
 - pnpm
+- Java 21 or later (OpenAPI Generator CLI runs on the JVM)
 
 ### Installation
 
@@ -28,9 +29,9 @@ pnpm install
 
 ## Working with the OpenAPI Specification
 
-### Generate Code/Documentation
+### Validate and Build
 
-These are the steps the `Check` job runs on every pull request.
+After installing, these are the steps the `Check` job runs on every pull request.
 
 ```bash
 pnpm validate  # validate openapi.yaml
@@ -42,7 +43,7 @@ pnpm build     # generate the typescript-fetch client into dist/
 The `openapi.yaml` specification automatically generates the TypeScript SDK (`@dodayslabs/ts-sdk`) located on npm at [package/@dodayslabs/ts-sdk](https://www.npmjs.com/package/@dodayslabs/ts-sdk):
 
 - **Generator**: `typescript-fetch` (OpenAPI Generator CLI)
-- **Output**: [ts-sdk/src](https://github.com/dodayslabs/ts-sdk/src)
+- **Output**: [ts-sdk/src](https://github.com/dodayslabs/ts-sdk/tree/main/src)
 - **Build Commands** (run from ts-sdk directory):
   ```bash
   pnpm generate  # Generate TypeScript client
